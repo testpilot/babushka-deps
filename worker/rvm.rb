@@ -49,7 +49,8 @@ dep('rvm ruby installed', :ruby) {
     env  = { 'rvm_user_install_flag' => '1' }
 
     env.each do |k,v|
-      shell "export #{k.to_s}=#{v}"
+      # shell "export #{k.to_s}=#{v}"
+      ENV[k] = v
     end
 
     shell "#{rvm} install #{ruby}"
