@@ -85,6 +85,12 @@ meta :global_gem do
   end
 
   template {
+    met? {
+      rubies.all? do |ruby|
+        login_shell("#{rvm} use #{ruby}; find $GEM_HOME/gems -name \"#{name}-[0-9]*.[0-9]*.[0-9]*\" | grep #{name}")
+      end
+    }
+
     meet {
       rubies.each do |ruby|
         log_block "Installing #{name} for #{ruby}" do
