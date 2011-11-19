@@ -53,9 +53,8 @@ meta :rubies_installed do
   }
 end
 
-dep('required.rubies_installed', :rubies) {
-  rubies var(:rubies)
-  # '1.9.2', '1.9.3', '1.8.7'
+dep('required.rubies_installed', :ruby_versions) {
+  rubies ruby_versions
 }
 
 dep('rvm installed') {
