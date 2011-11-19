@@ -7,21 +7,21 @@ dep('ruby environment', :global_ruby_versions){
   ]
 }
 
-dep('bundler.global_gem', :for_rubies) {
-  rubies *for_rubies
+dep('bundler.global_gem', :ruby_versions) {
+  rubies ruby_versions.split(',').map(&:chomp)
   versions '1.0.12', '1.1.pre'
 }
 
-dep('rake.global_gem', :for_rubies) {
-  rubies *for_rubies
+dep('rake.global_gem', :ruby_versions) {
+  rubies ruby_versions.split(',').map(&:chomp)
   versions '0.8.7', '0.9.2'
 }
 
-dep('rails.global_gem', :for_rubies) {
-  rubies *for_rubies
+dep('rails.global_gem', :ruby_versions) {
+  rubies ruby_versions.split(',').map(&:chomp)
   versions '3.0.12', '3.1.2'
 }
 
 dep('required.rubies_installed', :ruby_versions) {
-  rubies *ruby_versions
+  rubies ruby_versions.split(',').map(&:chomp)
 }
