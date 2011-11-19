@@ -14,10 +14,8 @@ meta :apt_repository do
     }
     meet {
       if key
-        require 'babushka/resource'
-        
-        Resource.get key do |path|
-          shell "apt-key add #{path}"
+        Babushka::Resource.get key do |path|
+          log_shell "apt-key add #{path}"
         end
       end
 
