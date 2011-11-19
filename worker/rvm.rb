@@ -87,7 +87,7 @@ meta :global_gem do
   template {
     met? {
       rubies.all? do |ruby|
-        login_shell("#{rvm} use #{ruby}; find $GEM_HOME/gems -name \"#{name}-[0-9]*.[0-9]*.[0-9]*\" | grep #{name}")
+        login_shell("#{rvm} use #{ruby}; find $GEM_HOME/gems -name \"#{name}-[0-9]*.[0-9]*.[0-9]*\" | grep #{name}") {|s| s.stdout.chomp if s.ok? }
       end
     }
 
