@@ -13,3 +13,12 @@ dep('build-essential.managed') {
   provides ['make', 'gcc']
 }
 
+dep('binutils-doc.managed') {
+  provides []
+}
+
+dep('autoconf.managed') {}
+
+dep('flex.managed') {}
+
+dep('bison.managed') {}
