@@ -63,9 +63,9 @@ dep('popular gems installed', :rubies){
 
 }
 
-dep('libgdbm-dev.managed')
-dep('libreadline5-dev.managed')
-dep('libssl-dev.managed')
-dep('libxml2-dev.managed')
-dep('libxslt1-dev.managed')
-dep('zlib1g-dev.managed')
+dep('libgdbm-dev.managed') { provides [] }
+dep('libreadline5-dev.managed') { provides [] }
+dep('libssl-dev.managed') { provides [] }
+dep('libxml2-dev.managed') { provides [] }
+dep('libxslt1-dev.managed') { provides [] }
+dep('zlib1g-dev.managed') { provides [] }
