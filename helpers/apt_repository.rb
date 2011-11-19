@@ -1,5 +1,8 @@
 meta :apt_repository do
-  accepts_value_for :name, :uri, :key, :source
+  accepts_value_for :name
+  accepts_value_for :source
+  accepts_value_for :uri
+  accepts_value_for :key
 
   template {
     met? {
