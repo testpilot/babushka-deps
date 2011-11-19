@@ -3,8 +3,8 @@ dep('libqt4 installed'){
 }
 
 dep('libqt4.apt_repository') {
-  name 'kubuntu-backports-ppa-deb'
-  source 'kubuntu-backports-ppa-deb-src'
+  name 'main'
+  source true
   uri 'http://ppa.launchpad.net/kubuntu-ppa/backports/ubuntu'
   key 'https://raw.github.com/gist/1208649/51c907099ec6f2003c6e120621f069c3cd1a75e6/gistfile1.txt'
 }
