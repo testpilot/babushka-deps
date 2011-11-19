@@ -1,6 +1,7 @@
 dep('rvm with multiple rubies'){
-  rubies = ['1.9.2', '1.9.3']
-  requires 'ruby dependencies', 'rvm installed', 'rvm rubies installed'.with(rubies)
+  requires 'ruby dependencies', 'rvm installed',
+    'rvm rubies installed'.with('1.9.2'),
+    'rvm rubies installed'.with('1.9.3')
 }
 
 dep('ruby dependencies'){
@@ -28,10 +29,6 @@ dep('rvm installed') {
     render_erb("rvm/rvm.sh.erb", :to => "/etc/profile.d/rvm.sh", :sudo => true)
     render_erb("rvm/dot_rvmrc.erb", :to => "~/.rvmrc", :sudo => false)
   }
-}
-
-dep('rvm rubies installed', :rubies) {
-  requires rubies.map { |ruby| 'rvm ruby installed'.with(ruby) }
 }
 
 dep('rvm ruby installed', :ruby) {
