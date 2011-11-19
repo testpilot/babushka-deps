@@ -3,9 +3,8 @@ dep('test environment') {
     'language-pack-en.managed',
     'core dependencies',
     'build essential installed',
-    'scons.managed',
-    'libyaml-0-2.managed',
-    'libyaml-dev.managed',
+    'python build environment',
+    'yaml configured',
     'timetrap configured',
     'git.managed'
   ]
