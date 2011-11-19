@@ -22,6 +22,7 @@ dep('rvm rubies installed', :rubies) {
 
 meta :rubies_installed do
   accepts_list_for :rubies
+  accepts_list_for :gems
 
   def home
     ENV['HOME']
@@ -47,9 +48,17 @@ meta :rubies_installed do
       set :rvm_user_install_flag, 1
 
       rubies.each do |ruby|
-        log("Installing Ruby #{ruby}") {
-          login_shell "#{rvm} install #{ruby}", :spinner => true
+        log_block("Installing Ruby #{ruby}") {
+          login_shell "#{rvm} install #{ruby}", :spinner => true, :log => true
         }
+
+        if gems
+          gems.each do |gem_name|
+            log_block("Installing gem #{gem_name}") {
+              login_shell "#{rvm} use #{ruby}; gem install #{gem_name} --version=#{version} --no-ri --no-rdoc"
+            }
+          end
+        end
       end
 
       login_shell "#{rvm} --default #{rubies.first}"
@@ -59,6 +68,7 @@ end
 
 dep('rvm.rubies_installed') {
   rubies '1.9.2', '1.9.3'
+  gems 'bundler', 'rake'
 }
 
 dep('rvm installed') {
