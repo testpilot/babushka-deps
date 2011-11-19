@@ -9,14 +9,17 @@ dep('ruby environment'){
   ]
 }
 
-dep('bundler.global_gem') {
+dep('bundler.global_gem', :rubies) {
+  rubies var(:rubies)
   versions '1.0.12', '1.1.pre'
 }
 
-dep('rake.global_gem') {
+dep('rake.global_gem', :rubies) {
+  rubies var(:rubies)
   versions '0.8.7', '0.9.2'
 }
 
-dep('rails.global_gem') {
+dep('rails.global_gem', :rubies) {
+  rubies var(:rubies)
   versions '3.0.12', '3.1.2'
 }
