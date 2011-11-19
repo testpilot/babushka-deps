@@ -13,6 +13,9 @@ meta :apt_repository do
       Babushka::AptHelper.source_for_system and Babushka::Base.host.name
     }
     meet {
+      handle_source key do |path|
+        shell "apt-key add #{path}"
+      end
       # shell "gpg --keyserver subkeys.pgp.net --recv-keys #{key}" &&
       # shell "gpg --armor --export #{key} | sudo apt-key add -"
 
