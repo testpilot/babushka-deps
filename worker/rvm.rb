@@ -1,8 +1,5 @@
 dep('rvm with multiple rubies'){
-  requires 'ruby dependencies', 'rvm installed',
-    'rvm ruby installed'.with(:ruby => '1.9.2'),
-    'rvm ruby installed'.with(:ruby => '1.9.3'),
-    'rvm default ruby set'.with('1.9.2')
+  requires 'ruby dependencies', 'rvm installed', 'rvm.rubies_installed'
 }
 
 dep('ruby dependencies'){
@@ -17,6 +14,53 @@ dep('ruby dependencies'){
 
 }
 
+dep('rvm rubies installed', :rubies) {
+  rubies.each do |ruby|
+    dep("ruby #{ruby}.rvm_installed")
+  end
+}
+
+meta :rubies_installed do
+  accepts_list_for :rubies
+
+  def home
+    ENV['HOME']
+  end
+
+  def user
+    shell('whoami').strip
+  end
+
+  def rvm
+    "source #{home}/.rvm/scripts/rvm && rvm"
+  end
+
+
+  template {
+    met? {
+      rubies.all? { |ruby|
+        shell?("ls #{home}/.rvm/rubies | grep #{ruby}")
+      }
+    }
+
+    meet {
+      set :rvm_user_install_flag, 1
+
+      rubies.each do |ruby|
+        log("Installing Ruby #{ruby}") {
+          login_shell "#{rvm} install #{ruby}", :spinner => true
+        }
+      end
+
+      login_shell "#{rvm} --default #{rubies.first}"
+    }
+  }
+end
+
+dep('rvm.rubies_installed') {
+  rubies '1.9.2', '1.9.3'
+}
+
 dep('rvm installed') {
   define_var :version, :default => "1.9.2"
 
@@ -29,40 +73,6 @@ dep('rvm installed') {
 
     render_erb("rvm/rvm.sh.erb", :to => "/etc/profile.d/rvm.sh", :sudo => true)
     render_erb("rvm/dot_rvmrc.erb", :to => "~/.rvmrc", :sudo => false)
-  }
-}
-
-def home
-  ENV['HOME']
-end
-
-def user
-  shell('whoami').strip
-end
-
-def rvm
-  "source #{home}/.rvm/scripts/rvm && rvm"
-end
-
-dep('rvm ruby installed', :ruby) {
-  met? { shell?("ls #{home}/.rvm/rubies | grep #{ruby}") }
-
-  meet {
-    env  = { 'rvm_user_install_flag' => '1' }
-
-    env.each do |k,v|
-      # shell "export #{k.to_s}=#{v}"
-      # ENV[k] = v
-      set k, v
-    end
-
-    login_shell "#{rvm} install #{ruby}", :spinner => true
-  }
-}
-
-dep('rvm default ruby set', :version) {
-  meet {
-    login_shell "#{rvm} --default #{version}"
   }
 }
 
