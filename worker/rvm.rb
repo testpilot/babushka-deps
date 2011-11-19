@@ -1,6 +1,6 @@
 dep('rvm with multiple rubies'){
-  define_var :rubies, :default => ['1.9.2']
-  requires 'ruby dependencies', 'rvm installed', 'rvm rubies installed'.with(rubies)
+  define_var :rubies, :default => ['1.9.2', '1.9.3']
+  requires 'ruby dependencies', 'rvm installed', 'rvm rubies installed'.with(var(:rubies))
 }
 
 dep('ruby dependencies'){
