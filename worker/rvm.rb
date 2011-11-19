@@ -25,7 +25,7 @@ dep('rvm installed') {
       shell "#{download_path} --version #{var(:version)}"
     end
 
-    render_erb("rvm/rvm.sh.erb", :to => "/etc/profile.d/rvm.sh", :sudo => false)
+    render_erb("rvm/rvm.sh.erb", :to => "/etc/profile.d/rvm.sh", :sudo => true)
     render_erb("rvm/dot_rvmrc.erb", :to => "~/.rvmrc", :sudo => false)
   }
 }
