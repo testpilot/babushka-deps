@@ -4,6 +4,7 @@ dep('postgresql installed'){
 
 dep 'postgres.managed', :version do
   version.default('9.1')
+
   requires {
     on :apt, 'set.locale', 'postgres.ppa'
     on :brew, 'set.locale'

@@ -92,6 +92,7 @@ meta :global_gem do
     met? {
       rubies.all? { |ruby|
         versions.all? { |version|
+          log "Checking if #{gem_name} version #{version} for #{ruby} is installed"
           shell?("bash -l -c '#{rvm} use #{ruby}; find $GEM_HOME/gems -name \"#{gem_name}-#{version}*\" | grep #{gem_name}'")
         }
       }
