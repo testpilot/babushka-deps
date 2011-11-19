@@ -1,11 +1,9 @@
-rubies = ['1.8.7', '1.9.2', '1.9.3']
-
-dep('ruby environment'){
+dep('ruby environment', :global_ruby_versions){
   requires [
-    'required.rubies_installed'.with(rubies),
-    'bundler.global_gem'.with(rubies),
-    'rake.global_gem'.with(rubies),
-    'rails.global_gem'.with(rubies)
+    'required.rubies_installed'.with(global_ruby_versions),
+    'bundler.global_gem'.with(global_ruby_versions),
+    'rake.global_gem'.with(global_ruby_versions),
+    'rails.global_gem'.with(global_ruby_versions)
   ]
 }
 
@@ -22,4 +20,8 @@ dep('rake.global_gem', :for_rubies) {
 dep('rails.global_gem', :for_rubies) {
   rubies *for_rubies
   versions '3.0.12', '3.1.2'
+}
+
+dep('required.rubies_installed', :ruby_versions) {
+  rubies *ruby_versions
 }

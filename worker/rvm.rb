@@ -53,10 +53,6 @@ meta :rubies_installed do
   }
 end
 
-dep('required.rubies_installed', :ruby_versions) {
-  rubies *ruby_versions
-}
-
 dep('rvm installed') {
   define_var :version, :default => "1.9.2"
 
