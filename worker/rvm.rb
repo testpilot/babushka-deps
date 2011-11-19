@@ -1,7 +1,7 @@
 dep('rvm with multiple rubies'){
   requires 'ruby dependencies', 'rvm installed',
-    'rvm ruby installed'.with('1.9.2'),
-    'rvm ruby installed'.with('1.9.3'),
+    'rvm ruby installed'.with(:ruby => '1.9.2'),
+    'rvm ruby installed'.with(:ruby => '1.9.3'),
     'rvm default ruby set'.with('1.9.2')
 }
 
@@ -61,8 +61,6 @@ dep('rvm ruby installed', :ruby) {
 }
 
 dep('rvm default ruby set', :version) {
-  met? { false }
-
   meet {
     login_shell "#{rvm} --default #{version}"
   }
