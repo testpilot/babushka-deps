@@ -8,6 +8,7 @@ dep('libqt4.apt_source') {
 
 dep('libqt4-src.apt_source') {
   source_name 'kubuntu-backports-ppa-deb-src'
+}
 
 dep('libqt4.managed') {
   installs via :apt, 'qt4-qmake', 'libqt4-dev'
