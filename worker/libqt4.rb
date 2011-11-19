@@ -11,4 +11,5 @@ dep('libqt4.apt_repository') {
 
 dep('libqt4.managed') {
   installs { via :apt, 'qt4-qmake', 'libqt4-dev' }
+  provides ['qmake']
 }
