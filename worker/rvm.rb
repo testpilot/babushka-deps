@@ -64,7 +64,7 @@ dep('rvm default ruby set', :version) {
   met? { false }
 
   meet {
-    shell "#{rvm} --default #{version}"
+    login_shell "#{rvm} --default #{version}"
   }
 }
 
