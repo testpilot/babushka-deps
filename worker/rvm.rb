@@ -91,18 +91,15 @@ meta :global_gem do
   template {
     met? {
       rubies.all? do |ruby|
-        login_shell("#{rvm} use #{ruby}; find $GEM_HOME/gems -name \"#{gem_name}-[0-9]*.[0-9]*.[0-9]*\" | grep #{gem_name}") {|s| s.stdout.chomp if s.ok? }
+        shell?("bash -l -c '#{rvm} use #{ruby}; find $GEM_HOME/gems -name \"#{gem_name}-[0-9]*.[0-9]*.[0-9]*\" | grep #{gem_name}'")
       end
     }
 
     meet {
       rubies.each do |ruby|
-        log_block "Installing #{gem_name} for #{ruby}" do
-          versions.each do |version|
-            log_block "Version #{version}" do
-              login_shell "#{rvm} use #{ruby}; gem install #{gem_name} --no-ri --no-rdoc", :log => true
-            end
-          end
+        versions.each do |version|
+          log "Installing #{gem_name} version #{version} for #{ruby}"
+          login_shell "#{rvm} use #{ruby}; gem install #{gem_name} --no-ri --no-rdoc", :spinner => true
         end
       end
     }
