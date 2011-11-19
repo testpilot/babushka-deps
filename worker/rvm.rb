@@ -1,6 +1,6 @@
 dep('rvm with multiple rubies'){
-  define_var :rubies, :default => ['1.9.2', '1.9.3']
-  requires 'ruby dependencies', 'rvm installed', 'rvm rubies installed'.with(var(:rubies))
+  rubies = ['1.9.2', '1.9.3']
+  requires 'ruby dependencies', 'rvm installed', 'rvm rubies installed'.with(rubies)
 }
 
 dep('ruby dependencies'){
@@ -22,7 +22,7 @@ dep('rvm installed') {
   meet {
     Babushka::Resource.get('https://raw.github.com/wayneeseguin/rvm/master/binscripts/rvm-installer') do |download_path|
       shell "chmod +x #{download_path}"
-      shell "rvm-installer --version #{var(:version)}"
+      shell "#{download_path} --version #{var(:version)}"
     end
 
     render_erb("rvm/rvm.sh.erb", :to => "/etc/profile.d/rvm.sh", :sudo => false)
