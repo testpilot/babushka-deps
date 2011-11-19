@@ -1,7 +1,8 @@
 dep('rvm with multiple rubies'){
   requires 'ruby dependencies', 'rvm installed',
     'rvm ruby installed'.with('1.9.2'),
-    'rvm ruby installed'.with('1.9.3')
+    'rvm ruby installed'.with('1.9.3'),
+    'rvm default ruby set'.with('1.9.2')
 }
 
 dep('ruby dependencies'){
@@ -31,19 +32,22 @@ dep('rvm installed') {
   }
 }
 
+def home
+  ENV['HOME']
+end
+
+def user
+  shell('whoami').strip
+end
+
+def rvm
+  "source #{home}/.rvm/scripts/rvm && rvm"
+end
+
 dep('rvm ruby installed', :ruby) {
-  def home
-    ENV['HOME']
-  end
-
-  def user
-    shell('whoami').strip
-  end
-
   met? { shell?("ls #{home}/.rvm/rubies | grep #{ruby}") }
 
   meet {
-    rvm  = "source #{home}/.rvm/scripts/rvm && rvm"
     env  = { 'rvm_user_install_flag' => '1' }
 
     env.each do |k,v|
@@ -52,7 +56,15 @@ dep('rvm ruby installed', :ruby) {
       set k, v
     end
 
-    login_shell "#{rvm} install #{ruby}"
+    login_shell "#{rvm} install #{ruby}", :spinner => true
+  }
+}
+
+dep('rvm default ruby set', :version) {
+  met? { false }
+
+  meet {
+    shell "#{rvm} --default #{version}"
   }
 }
 
