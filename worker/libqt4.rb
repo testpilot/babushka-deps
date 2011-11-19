@@ -25,7 +25,7 @@ meta :apt_repository do
 end
 
 dep('libqt4 installed'){
-  requires 'libqt4.apt_source', 'libqt4.managed'
+  requires 'libqt4.apt_repository', 'libqt4.managed'
 }
 
 dep('libqt4.apt_repository') {
