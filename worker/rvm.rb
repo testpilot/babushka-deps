@@ -87,8 +87,12 @@ meta :global_gem do
   template {
     meet {
       rubies.each do |ruby|
-        versions.each do |version|
-          login_shell "#{rvm} use #{ruby}; gem install #{name} --no-ri --no-rdoc", :log => true
+        log_block "Installing #{name} for #{ruby}" do
+          versions.each do |version|
+            log_block "Version #{version}" do
+              login_shell "#{rvm} use #{ruby}; gem install #{name} --no-ri --no-rdoc", :log => true
+            end
+          end
         end
       end
     }
