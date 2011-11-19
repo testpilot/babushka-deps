@@ -14,12 +14,12 @@ meta :apt_repository do
     }
     meet {
       if key
+        require 'babushka/resource'
+        
         Resource.get key do |path|
           shell "apt-key add #{path}"
         end
       end
-      # shell "gpg --keyserver subkeys.pgp.net --recv-keys #{key}" &&
-      # shell "gpg --armor --export #{key} | sudo apt-key add -"
 
       [name, source].compact.each do |name|
         append_to_file "#{source == name ? 'deb-src' : 'deb'} #{uri} #{Babushka::Base.host.name} #{name}", '/etc/apt/sources.list', :sudo => true
