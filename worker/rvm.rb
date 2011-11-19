@@ -41,7 +41,7 @@ dep('rvm ruby installed', :ruby) {
   end
 
   met? {
-    shell("ls #{home}/.rvm/rubies | grep #{ruby}").nil?
+    shell?("ls #{home}/.rvm/rubies | grep #{ruby}")
   }
 
   meet {
