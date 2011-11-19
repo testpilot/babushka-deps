@@ -23,5 +23,5 @@ dep('rake.global_gem', :ruby_versions) {
 
 dep('rails.global_gem', :ruby_versions) {
   rubies *ruby_versions.to_s.split(',').map(&:chomp)
-  versions '3.0.12', '3.1.2'
+  versions '3.0.11', '3.1.2'
 }
