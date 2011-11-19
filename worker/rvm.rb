@@ -84,19 +84,23 @@ meta :global_gem do
     "source #{home}/.rvm/scripts/rvm && rvm"
   end
 
+  def gem_name
+    name.split('.').first
+  end
+
   template {
     met? {
       rubies.all? do |ruby|
-        login_shell("#{rvm} use #{ruby}; find $GEM_HOME/gems -name \"#{name}-[0-9]*.[0-9]*.[0-9]*\" | grep #{name}") {|s| s.stdout.chomp if s.ok? }
+        login_shell("#{rvm} use #{ruby}; find $GEM_HOME/gems -name \"#{gem_name}-[0-9]*.[0-9]*.[0-9]*\" | grep #{gem_name}") {|s| s.stdout.chomp if s.ok? }
       end
     }
 
     meet {
       rubies.each do |ruby|
-        log_block "Installing #{name} for #{ruby}" do
+        log_block "Installing #{gem_name} for #{ruby}" do
           versions.each do |version|
             log_block "Version #{version}" do
-              login_shell "#{rvm} use #{ruby}; gem install #{name} --no-ri --no-rdoc", :log => true
+              login_shell "#{rvm} use #{ruby}; gem install #{gem_name} --no-ri --no-rdoc", :log => true
             end
           end
         end
