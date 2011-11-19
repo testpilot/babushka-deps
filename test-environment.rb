@@ -6,6 +6,7 @@ dep('test environment') {
     'python build environment',
     'yaml configured',
     'timetrap configured',
-    'git.managed'
+    'git.managed',
+    'libqt4 installed'
   ]
 }
