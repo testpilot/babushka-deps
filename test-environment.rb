@@ -7,6 +7,7 @@ dep('test environment') {
     'yaml configured',
     'timetrap configured',
     'git.managed',
-    'libqt4 installed'
+    'libqt4 installed',
+    'libv8 installed'
   ]
 }
