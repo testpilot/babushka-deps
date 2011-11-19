@@ -7,3 +7,9 @@ dep('build essential installed') {
     'bison.managed'
   ]
 }
+
+dep('build-essential.managed') {
+  installs { via :apt, 'build-essential' }
+  provides ['make', 'gcc']
+}
+
