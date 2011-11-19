@@ -1,7 +1,7 @@
 dep('rvm with multiple rubies'){
   requires 'ruby dependencies', 'rvm installed',
-    'rvm rubies installed'.with('1.9.2'),
-    'rvm rubies installed'.with('1.9.3')
+    'rvm ruby installed'.with('1.9.2'),
+    'rvm ruby installed'.with('1.9.3')
 }
 
 dep('ruby dependencies'){
