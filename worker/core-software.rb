@@ -18,7 +18,6 @@ packages = [
 end
 
 packages_without_binary = [
-  'iproute',
   'iputils-ping',
   'netcat-openbsd',
   'bind9-host',
