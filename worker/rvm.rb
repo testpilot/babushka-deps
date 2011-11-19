@@ -14,12 +14,6 @@ dep('ruby dependencies'){
 
 }
 
-dep('rvm rubies installed', :rubies) {
-  rubies.each do |ruby|
-    dep("ruby #{ruby}.rvm_installed")
-  end
-}
-
 meta :rubies_installed do
   accepts_list_for :rubies
   accepts_list_for :gems
@@ -40,7 +34,10 @@ meta :rubies_installed do
   template {
     met? {
       rubies.all? { |ruby|
-        shell?("ls #{home}/.rvm/rubies | grep #{ruby}")
+        shell?("ls #{home}/.rvm/rubies | grep #{ruby}") &&
+        gems.all? do |gem_name|
+          shell?("bash -c '#{rvm} use #{ruby}; find $GEM_HOME/gems -name \"#{gem_name}-[0-9]*.[0-9]*.[0-9]*\" | grep #{gem_name}'")
+        end
       }
     }
 
