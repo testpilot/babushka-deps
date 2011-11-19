@@ -40,9 +40,7 @@ dep('rvm ruby installed', :ruby) {
     shell('whoami').strip
   end
 
-  met? {
-    shell?("ls #{home}/.rvm/rubies | grep #{ruby}")
-  }
+  met? { shell?("ls #{home}/.rvm/rubies | grep #{ruby}") }
 
   meet {
     rvm  = "source #{home}/.rvm/scripts/rvm && rvm"
@@ -54,7 +52,7 @@ dep('rvm ruby installed', :ruby) {
       set k, v
     end
 
-    shell "#{rvm} install #{ruby}", :cd => home
+    login_shell "#{rvm} install #{ruby}"
   }
 }
 
