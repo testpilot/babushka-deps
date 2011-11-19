@@ -28,7 +28,6 @@ meta :rubies_installed do
     "source #{home}/.rvm/scripts/rvm && rvm"
   end
 
-
   template {
     met? {
       rubies.all? { |ruby|
@@ -41,25 +40,21 @@ meta :rubies_installed do
 
       rubies.each do |ruby|
         log_block("Installing Ruby #{ruby}") {
-          login_shell "#{rvm} install #{ruby}", :spinner => true, :log => true
+          login_shell "#{rvm} install #{ruby}", :spinner => true
         }
-
-        # if gems
-        #   gems.each do |gem_name|
-        #     log_block("Installing gem #{gem_name}") {
-        #       login_shell "#{rvm} use #{ruby}; gem install #{gem_name} --no-ri --no-rdoc"
-        #     }
-        #   end
-        # end
       end
 
       login_shell "#{rvm} --default #{rubies.first}"
+    }
+
+    after {
+      login_shell "#{rvm} cleanup all"
     }
   }
 end
 
 dep('required.rubies_installed') {
-  rubies '1.9.2', '1.9.3', '1.8.7'
+  # rubies '1.9.2', '1.9.3', '1.8.7'
 }
 
 dep('rvm installed') {
@@ -104,24 +99,24 @@ meta :global_gem do
   }
 end
 
-dep('bundler.global_gem') {
-  rubies '1.9.2', '1.8.7', '1.9.3'
-  versions '1.0.12', '1.1.pre'
-}
-
-dep('rake.global_gem') {
-  rubies '1.9.2', '1.8.7', '1.9.3'
-  versions '0.8.7', '0.9.2'
-}
-
-dep('rails.global_gem') {
-  rubies '1.9.2', '1.8.7', '1.9.3'
-  versions '3.0.12', '3.1.2'
-}
-
-dep('popular gems installed'){
-  requires 'bundler.global_gem', 'rake.global_gem', 'rails.global_gem'
-}
+# dep('bundler.global_gem') {
+#   rubies '1.9.2', '1.8.7', '1.9.3'
+#   versions '1.0.12', '1.1.pre'
+# }
+#
+# dep('rake.global_gem') {
+#   rubies '1.9.2', '1.8.7', '1.9.3'
+#   versions '0.8.7', '0.9.2'
+# }
+#
+# dep('rails.global_gem') {
+#   rubies '1.9.2', '1.8.7', '1.9.3'
+#   versions '3.0.12', '3.1.2'
+# }
+#
+# dep('popular gems installed'){
+#   requires 'bundler.global_gem', 'rake.global_gem', 'rails.global_gem'
+# }
 
 dep('libgdbm-dev.managed') { provides [] }
 dep('libreadline5-dev.managed') { provides [] }

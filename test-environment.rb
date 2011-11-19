@@ -9,8 +9,11 @@ dep('test environment') {
     'git.managed',
     'libqt4 installed',
     'libv8 installed',
-    # 'nodejs multi installed'
-    'rvm with multiple rubies',
-    'popular gems installed'
+
+    # Language environments
+    'ruby environment'
+    # 'nodejs environment',
+    # 'pyhton environment',
+    # 'closure environment'
   ]
 }
