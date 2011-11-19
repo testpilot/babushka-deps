@@ -30,8 +30,8 @@ dep('rvm installed') {
   }
 }
 
-dep('rvm rubies installed') {
-  requires var(:rubies).map { |ruby| 'rvm ruby installed'.with(ruby) }
+dep('rvm rubies installed', :rubies) {
+  requires rubies.map { |ruby| 'rvm ruby installed'.with(ruby) }
 }
 
 dep('rvm ruby installed', :ruby) {
