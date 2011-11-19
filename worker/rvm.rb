@@ -1,5 +1,5 @@
 dep('rvm with multiple rubies'){
-  requires 'ruby dependencies', 'rvm installed', 'rvm.rubies_installed'
+  requires 'ruby dependencies', 'rvm installed', 'required.rubies_installed'
 }
 
 dep('ruby dependencies'){
@@ -11,12 +11,10 @@ dep('ruby dependencies'){
     'libxslt1-dev.managed',
     'zlib1g-dev.managed'
   ]
-
 }
 
 meta :rubies_installed do
   accepts_list_for :rubies
-  accepts_list_for :gems
 
   def home
     ENV['HOME']
@@ -34,10 +32,7 @@ meta :rubies_installed do
   template {
     met? {
       rubies.all? { |ruby|
-        shell?("ls #{home}/.rvm/rubies | grep #{ruby}") &&
-        gems.all? do |gem_name|
-          shell?("bash -c '#{rvm} use #{ruby}; find $GEM_HOME/gems -name \"#{gem_name}-[0-9]*.[0-9]*.[0-9]*\" | grep #{gem_name}'")
-        end
+        shell?("ls #{home}/.rvm/rubies | grep #{ruby}")
       }
     }
 
@@ -49,13 +44,13 @@ meta :rubies_installed do
           login_shell "#{rvm} install #{ruby}", :spinner => true, :log => true
         }
 
-        if gems
-          gems.each do |gem_name|
-            log_block("Installing gem #{gem_name}") {
-              login_shell "#{rvm} use #{ruby}; gem install #{gem_name} --version=#{version} --no-ri --no-rdoc"
-            }
-          end
-        end
+        # if gems
+        #   gems.each do |gem_name|
+        #     log_block("Installing gem #{gem_name}") {
+        #       login_shell "#{rvm} use #{ruby}; gem install #{gem_name} --no-ri --no-rdoc"
+        #     }
+        #   end
+        # end
       end
 
       login_shell "#{rvm} --default #{rubies.first}"
@@ -63,9 +58,8 @@ meta :rubies_installed do
   }
 end
 
-dep('rvm.rubies_installed') {
-  rubies '1.9.2', '1.9.3'
-  gems 'bundler', 'rake'
+dep('required.rubies_installed') {
+  rubies '1.9.2', '1.9.3', '1.8.7'
 }
 
 dep('rvm installed') {
@@ -83,8 +77,50 @@ dep('rvm installed') {
   }
 }
 
-dep('popular gems installed', :rubies){
+meta :global_gem do
+  accepts_list_for :rubies
+  accepts_list_for :versions
 
+  def home
+    ENV['HOME']
+  end
+
+  def user
+    shell('whoami').strip
+  end
+
+  def rvm
+    "source #{home}/.rvm/scripts/rvm && rvm"
+  end
+
+  template {
+    meet {
+      rubies.each do |ruby|
+        versions.each do |version|
+          login_shell "#{rvm} use #{ruby}; gem install #{name} --no-ri --no-rdoc", :log => true
+        end
+      end
+    }
+  }
+end
+
+dep('bundler.global_gem') {
+  rubies '1.9.2', '1.8.7', '1.9.3'
+  versions '1.0.12', '1.1.pre'
+}
+
+dep('rake.global_gem') {
+  rubies '1.9.2', '1.8.7', '1.9.3'
+  versions '0.8.7', '0.9.2'
+}
+
+dep('rails.global_gem') {
+  rubies '1.9.2', '1.8.7', '1.9.3'
+  versions '3.0.12', '3.1.2'
+}
+
+dep('popular gems installed'){
+  requires 'bundler.global_gem', 'rake.global_gem', 'rails.global_gem'
 }
 
 dep('libgdbm-dev.managed') { provides [] }
