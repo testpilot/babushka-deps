@@ -1,6 +1,7 @@
 dep('test environment') {
   requires [
-    'language-pack-en.managed',
+    # 'language-pack-en.managed',
+    'set.locale',
     'core dependencies',
     'build essential installed',
     'python build environment',
