@@ -1,5 +1,6 @@
 dep('test environment') {
   requires [
+    'language-pack-en',
     'core dependencies',
     'build essential installed',
     'scons.managed',

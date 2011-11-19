@@ -27,7 +27,9 @@ packages_without_binary = [
   'libxslt1-dev',
   'zlib1g-dev'
 ].each { |p|
-  dep [p, 'managed'].join('.') { provides [] }
+  dep [p, 'managed'].join('.') do
+    provides []
+  end
 }
 
 dep('core dependencies') {
