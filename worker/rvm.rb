@@ -41,7 +41,7 @@ dep('rvm ruby installed', :ruby) {
   end
 
   met? {
-    shell("ls #{home}/.rvm/rubies | grep #{ruby}")
+    shell("ls #{home}/.rvm/rubies | grep #{ruby}").empty?
   }
 
   meet {
@@ -50,10 +50,11 @@ dep('rvm ruby installed', :ruby) {
 
     env.each do |k,v|
       # shell "export #{k.to_s}=#{v}"
-      ENV[k] = v
+      # ENV[k] = v
+      set k, v
     end
 
-    shell "#{rvm} install #{ruby}"
+    shell "#{rvm} install #{ruby}", :cd => home
   }
 }
 
