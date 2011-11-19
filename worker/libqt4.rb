@@ -13,11 +13,11 @@ meta :apt_repository do
       Babushka::AptHelper.source_for_system and Babushka::Base.host.name
     }
     meet {
-      shell "gpg --keyserver subkeys.pgp.net --recv-keys #{key}"
-      shell "gpg --armor --export #{key} | sudo apt-key add -"
+      # shell "gpg --keyserver subkeys.pgp.net --recv-keys #{key}"
+      # shell "gpg --armor --export #{key} | sudo apt-key add -"
 
       [name, source].compact.each do |name|
-        append_to_file "#{source == name ? 'deb-src' : deb} #{uri} #{Babushka::Base.host.name} #{name}", '/etc/apt/sources.list', :sudo => true
+        append_to_file "#{source == name ? 'deb-src' : 'deb'} #{uri} #{Babushka::Base.host.name} #{name}", '/etc/apt/sources.list', :sudo => true
       end
     }
     after { Babushka::AptHelper.update_pkg_lists }
