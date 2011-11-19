@@ -10,10 +10,11 @@ dep('test environment') {
     'libqt4 installed',
     'libv8 installed',
 
+    # Databases
+    'sqlite installed',
+    'postgresql installed',
+
     # Language environments
     'ruby environment'.with('1.8.7, 1.9.2, 1.9.3')
-    # 'nodejs environment',
-    # 'pyhton environment',
-    # 'closure environment'
   ]
 }
