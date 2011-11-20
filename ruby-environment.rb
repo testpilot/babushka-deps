@@ -29,6 +29,6 @@ dep('rails.global_gem', :ruby_versions) {
 }
 
 dep('therubyracer.global_gem', :ruby_versions) {
-  rubies *(ruby_versions.to_s.split(',').map(&:chomp) - ['jruby', 'rbx', 'rbx-2.0.0pre'])
+  rubies *('1.8.7, 1.9.2, 1.9.3, ruby-head, ree'.to_s.split(',').map(&:chomp))
   versions '0.9.3', '0.9.4', '0.9.5', '0.9.6', '0.9.7', '0.9.8'
 }
