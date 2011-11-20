@@ -53,17 +53,9 @@ max_connections       = <%= max_connections %>
 port                  = 5432
 unix_socket_directory = '/var/run/postgresql'
 
-
-
 # - Security and Authentication -
-
-<% if node.postgresql.ssl %>
-ssl = true
-<% else %>
-#ssl = off
-<% end %>
+ssl = off
 #ssl_ciphers = 'ALL:!ADH:!LOW:!EXP:!MD5:@STRENGTH'
-
 
 #------------------------------------------------------------------------------
 # RESOURCE USAGE (except WAL)
