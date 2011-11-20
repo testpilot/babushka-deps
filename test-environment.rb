@@ -15,6 +15,7 @@ dep('test environment') {
     'sqlite installed',
     'postgresql installed',
     'redis installed',
+    'riak installed',
 
     # Language environments
     'ruby environment'.with('1.8.7, 1.9.2, 1.9.3, ree')
