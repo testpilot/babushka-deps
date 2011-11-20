@@ -1,3 +1,5 @@
+# This is based on the travis-ci mongo chef cookbook
+
 dep('mongodb installed') {
   requires 'mongodb.apt_repository', 'mongo.directories', 'mongodb.managed', 'mongodb sysv init script'
 }
@@ -21,6 +23,7 @@ dep('mongodb apt source key') {
 
 dep('mongodb.managed') {
   installs { via :apt, 'mongodb-10gen' }
+  provides []
 }
 
 dep('mongodb sysv init script') {
