@@ -39,9 +39,7 @@ meta :rubies_installed do
       set :rvm_user_install_flag, 1
 
       rubies.each do |ruby|
-        log_block("Installing Ruby #{ruby}") {
-          login_shell "#{rvm} install #{ruby}", :spinner => true
-        }
+        log_shell "Installing Ruby #{ruby}", "bash -l -c '#{rvm} install #{ruby}'", :spinner => true
       end
 
       login_shell "#{rvm} --default #{rubies.first}"
@@ -115,8 +113,7 @@ meta :global_gem do
     meet {
       rubies.each do |ruby|
         versions.each do |version|
-          log "Installing #{gem_name} version #{version} for #{ruby}"
-          login_shell "#{rvm} use #{ruby}; gem install #{gem_name} --no-ri --no-rdoc --version #{version}", :spinner => true
+          log_shell "Installing #{gem_name} version #{version} for #{ruby}", "bash -l -c '#{rvm} use #{ruby}; gem install #{gem_name} --no-ri --no-rdoc --version #{version}'", :spinner => true
         end
       end
     }
