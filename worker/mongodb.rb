@@ -6,12 +6,14 @@ dep('mongodb.apt_repository') {
   requires 'mongodb apt source key'
   uri 'http://downloads-distro.mongodb.org/repo/debian-sysvinit'
   name '10gen'
+  distro 'dist'
 }
 
 dep('mongodb apt source key') {
   met? {
     shell?('apt-key list | grep 7F0CEB10', :sudo => true)
   }
+
   meet {
     shell "apt-key adv --keyserver keyserver.ubuntu.com --recv 7F0CEB10", :sudo => true
   }
