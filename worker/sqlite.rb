@@ -4,6 +4,6 @@ dep('sqlite installed') {
 
 dep('sqlite3.managed') {
   installs { via :apt, 'sqlite3', 'sqlite3-doc', 'libsqlite3-dev'}
-  provides ['sqlite']
+  provides ['sqlite3']
 }
 
