@@ -4,7 +4,7 @@ dep('riak installed') {
 
 dep('riak installed from package'){
   met? {
-
+    shell?('which riak')
   }
 
   meet {
