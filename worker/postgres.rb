@@ -48,14 +48,16 @@ dep('postgres configured', :version) {
   }
 
   meet {
-    render_erb("postgres/pg_hba.conf.erb", :to => postgres_dir / 'pg_hba.conf', :sudo => true, :log => true, :as => 'postgres')
-    render_erb("postgres/postgresql.conf.erb", :to => postgres_dir / 'postgresql.conf', :sudo => true, :log => true, :as => 'postgres')
 
-    shell("chmod 0600 #{postgres_dir / 'pg_hba.conf'}", :sudo => true, :log => true, :as => 'postgres')
-    shell("chown postgres:postgres #{postgres_dir / 'pg_hba.conf'}", :sudo => true, :log => true, :as => 'postgres')
+    render_erb("postgres/pg_hba.conf.erb", :to => "#{postgres_dir}/pg_hba.conf", :sudo => true, :perms => '600')
 
-    shell("chmod 0600 #{postgres_dir / 'postgresql.conf'}", :sudo => true, :log => true, :as => 'postgres')
-    shell("chown postgres:postgres #{postgres_dir / 'postgresql.conf'}", :sudo => true, :log => true, :as => 'postgres')
+    # render_erb("postgres/postgresql.conf.erb", :to => postgres_dir / 'postgresql.conf', :sudo => true, :log => true, :as => 'postgres')
+    #
+    # shell("chmod 0600 #{postgres_dir / 'pg_hba.conf'}", :sudo => true, :log => true, :as => 'postgres')
+    # shell("chown postgres:postgres #{postgres_dir / 'pg_hba.conf'}", :sudo => true, :log => true, :as => 'postgres')
+    #
+    # shell("chmod 0600 #{postgres_dir / 'postgresql.conf'}", :sudo => true, :log => true, :as => 'postgres')
+    # shell("chown postgres:postgres #{postgres_dir / 'postgresql.conf'}", :sudo => true, :log => true, :as => 'postgres')
   }
 
   after {
