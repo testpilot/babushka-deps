@@ -1,5 +1,5 @@
 dep('redis installed') {
-  requries 'redis directories setup', 'redis-server.managed'
+  requires 'redis directories setup', 'redis-server.managed'
 }
 
 dep('redis directories setup') {
