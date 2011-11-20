@@ -1,6 +1,6 @@
 dep('test environment') {
   requires [
-    # 'language-pack-en.managed',
+    'language-pack-en.managed',
     'set.locale',
     'core dependencies',
     'build essential installed',
@@ -13,6 +13,7 @@ dep('test environment') {
     'libv8 installed',
     'imagemagick.managed',
     'xvfb installed',
+    'firefox installed',
 
     # Databases
     'sqlite installed',
