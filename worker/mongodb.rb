@@ -22,7 +22,7 @@ dep('mongodb apt source key') {
 }
 
 dep('mongodb.managed') {
-  installs { via :apt, 'mongodb-10gen' }
+  installs { via :apt, 'mongodb' }
   provides []
 }
 
