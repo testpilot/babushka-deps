@@ -35,12 +35,12 @@
 # The default values of these variables are driven from the -D command-line
 # option or PGDATA environment variable, represented here as ConfigDir.
 
-data_directory = '/var/lib/postgresql/<%= var(:version) %>/main'		        # use data in another directory
-hba_file       = '/etc/postgresql/<%= var(:version) %>/main/pg_hba.conf'	  # host-based authentication file
-ident_file     = '/etc/postgresql/<%= var(:version) %>/main/pg_ident.conf'	# ident configuration file
+data_directory = '/var/lib/postgresql/<%= version %>/main'		        # use data in another directory
+hba_file       = '/etc/postgresql/<%= version %>/main/pg_hba.conf'	  # host-based authentication file
+ident_file     = '/etc/postgresql/<%= version %>/main/pg_ident.conf'	# ident configuration file
 
 # If external_pid_file is not explicitly set, no extra PID file is written.
-external_pid_file = '/var/run/postgresql/<%= var(:version) %>-main.pid'		# write an extra PID file
+external_pid_file = '/var/run/postgresql/<%= version %>-main.pid'		# write an extra PID file
 
 
 #------------------------------------------------------------------------------
