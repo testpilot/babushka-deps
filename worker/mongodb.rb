@@ -28,11 +28,12 @@ dep('mongodb.managed') {
 
 dep('mongodb sysv init script') {
   met? {
-    babushka_config?('/etc/init.d/mongodb')
+    shell?('test -x /etc/init.d/mongodb', :sudo => true)
   }
 
   meet {
-    render_erb('mongodb/mongodb.syscinit.sh.erb', :to => '/etc/init.d/mongodb', :sudo => true, :perms => '0751')
+    render_erb('mongodb/mongodb.syscinit.sh.erb', :to => '/etc/init.d/mongodb', :sudo => true)
+    shell('chmod 0751 /etc/init.d/mongodb', :sudo => true)
   }
 }
 
