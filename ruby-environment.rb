@@ -1,5 +1,6 @@
 dep('ruby environment', :global_ruby_versions){
   requires [
+    'rvm with multiple rubies',
     'required.rubies_installed'.with(global_ruby_versions),
     'bundler.global_gem'.with(global_ruby_versions),
     'rake.global_gem'.with(global_ruby_versions),

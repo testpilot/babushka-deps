@@ -1,5 +1,5 @@
 dep('rvm with multiple rubies'){
-  requires 'ruby dependencies', 'rvm installed', 'required.rubies_installed'
+  requires 'ruby dependencies', 'rvm installed'
 }
 
 dep('ruby dependencies'){
