@@ -12,6 +12,7 @@ dep('test environment') {
     'libqt4 installed',
     'libv8 installed',
     'imagemagick.managed',
+    'xvfb installed',
 
     # Databases
     'sqlite installed',
