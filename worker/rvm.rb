@@ -88,6 +88,20 @@ meta :global_gem do
     name.split('.').first
   end
 
+  def all_mutations
+    mutations = []
+    rubies.each { |ruby|
+      versions.each { |version|
+        mutations << {:ruby => ruby, :version => version, :name => gem_name}
+      }
+    }
+    mutations
+  end
+
+  def dep_for_mutation(mutation)
+    "#{mutation[:name]} #{mutation[:version]} .gem"
+  end
+
   template {
     met? {
       rubies.all? { |ruby|
@@ -106,6 +120,15 @@ meta :global_gem do
         end
       end
     }
+  }
+end
+
+meta :gem_installed do
+  accepts_value_for :version
+  accepts_value_for :ruby
+
+  template {
+
   }
 end
 
