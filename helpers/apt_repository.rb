@@ -3,7 +3,11 @@ meta :apt_repository do
   accepts_value_for :source
   accepts_value_for :uri
   accepts_value_for :key
-  accepts_value_for :distro, Babushka::Base.host.name
+  accepts_value_for :distro, :host
+
+  def host
+    Babushka::Base.host.name
+  end
 
   template {
     met? {
