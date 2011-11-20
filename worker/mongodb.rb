@@ -39,5 +39,5 @@ dep('mongodb sysv init script') {
 
 dep('mongo.directories') {
   directories '/var/lib/mongodb'
-  perms 0755
+  perms '0755'
 }
