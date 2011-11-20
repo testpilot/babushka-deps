@@ -3,8 +3,7 @@ dep('postgresql installed'){
 }
 
 dep 'postgres.managed', :version do
-  # version.default('9.1')
-  define_var(:version, :default => '9.1')
+  version.default('9.1')
 
   requires {
     on :apt, 'set.locale', 'postgres.ppa'
@@ -33,8 +32,7 @@ dep 'postgres.ppa' do
 end
 
 dep('postgres configured', :version) {
-  # version.default('9.1')
-  define_var(:version, :default => '9.1')
+  version.default('9.1')
 
   def postgres_dir
     "/etc/postgresql/#{version}/main"
@@ -50,22 +48,17 @@ dep('postgres configured', :version) {
   }
 
   meet {
-    shell("mv -f #{postgres_dir / 'pg_hba.conf'}{,.orig}", :sudo => true)
-    shell("mv -f #{postgres_dir / 'postgresql.conf'}{,.orig}", :sudo => true)
+    render_erb("postgres/pg_hba.conf.erb", :to => postgres_dir / 'pg_hba.conf', :sudo => true, :log => true, :as => 'postgres')
+    render_erb("postgres/postgresql.conf.erb", :to => postgres_dir / 'postgresql.conf', :sudo => true, :log => true, :as => 'postgres')
 
-    render_erb("postgres/pg_hba.conf.erb", :to => postgres_dir / 'pg_hba.conf', :sudo => true)
-    render_erb("postgres/postgresql.conf.erb", :to => postgres_dir / 'postgresql.conf', :sudo => true)
+    shell("chmod 0600 #{postgres_dir / 'pg_hba.conf'}", :sudo => true, :log => true, :as => 'postgres')
+    shell("chown postgres:postgres #{postgres_dir / 'pg_hba.conf'}", :sudo => true, :log => true, :as => 'postgres')
 
-    shell("chmod 0600 #{postgres_dir / 'pg_hba.conf'}", :sudo => true)
-    shell("chown postgres:postgres #{postgres_dir / 'pg_hba.conf'}", :sudo => true)
-
-    shell("chmod 0600 #{postgres_dir / 'postgresql.conf'}", :sudo => true)
-    shell("chown postgres:postgres #{postgres_dir / 'postgresql.conf'}", :sudo => true)
+    shell("chmod 0600 #{postgres_dir / 'postgresql.conf'}", :sudo => true, :log => true, :as => 'postgres')
+    shell("chown postgres:postgres #{postgres_dir / 'postgresql.conf'}", :sudo => true, :log => true, :as => 'postgres')
   }
 
   after {
     log_shell "Restarting postgres", "service postgresql restart", :sudo => true
   }
 }
-
-
