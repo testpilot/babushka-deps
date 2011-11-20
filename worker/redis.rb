@@ -1,5 +1,5 @@
 dep('redis installed') {
-  requires 'system user exists'.with('redis'), 'redis directories setup', 'redis-server.managed'
+  'redis directories setup', 'redis-server.managed'
 }
 
 dep('redis directories setup') {
@@ -17,7 +17,8 @@ dep('redis directories setup') {
 
   meet {
     directories.all? do |dir|
-      shell "mkdir -p #{dir}", :as => 'redis', :sudo => true
+      shell "mkdir -p #{dir}", :sudo => true
+      shell "chown redis #{dir}", :sudo => true
     end
   }
 }
