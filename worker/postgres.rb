@@ -1,5 +1,5 @@
 dep('postgresql installed'){
-  requires 'postgres.managed', 'postgres configured'
+  requires 'sysctl shared memory configured', 'postgres.managed', 'postgres configured'
 }
 
 dep 'postgres.managed', :version do
@@ -56,5 +56,17 @@ dep('postgres configured', :version) {
 
   after {
     log_shell "Restarting postgres", "service postgresql restart", :sudo => true
+  }
+}
+
+dep('sysctl shared memory configured') {
+  met? {
+    shell?("grep '^kernel.shmmax' /etc/sysctl.d/30-postgresql-shm.conf") &&
+    shell?("grep '^kernel.shmall' /etc/sysctl.d/30-postgresql-shm.conf")
+  }
+
+  meet {
+    change_line("#kernel.shmmax = 33554432", "kernel.shmmax = 134217728", "/etc/sysctl.d/30-postgresql-shm.conf")
+    change_line("#kernel.shmall = 2097152", "kernel.shmall = 32768", "/etc/sysctl.d/30-postgresql-shm.conf")
   }
 }
