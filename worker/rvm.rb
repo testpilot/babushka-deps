@@ -54,7 +54,11 @@ end
 dep('rvm installed') {
   define_var :version, :default => "1.9.2"
 
-  met? { "/home/ubuntu/.rvm".p.directory? }
+  def user
+    shell('whoami').strip
+  end
+
+  met? { "/home/#{user}/.rvm".p.directory? }
   meet {
     Babushka::Resource.get('https://raw.github.com/wayneeseguin/rvm/master/binscripts/rvm-installer') do |download_path|
       shell "chmod +x #{download_path}"
@@ -62,7 +66,7 @@ dep('rvm installed') {
     end
 
     render_erb("rvm/rvm.sh.erb", :to => "/etc/profile.d/rvm.sh", :sudo => true)
-    render_erb("rvm/dot_rvmrc.erb", :to => "~/.rvmrc", :sudo => false)
+    render_erb("rvm/dot_rvmrc.erb", :to => "/home/#{user}/.rvmrc", :sudo => false)
   }
 }
 
