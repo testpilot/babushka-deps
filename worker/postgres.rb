@@ -43,8 +43,10 @@ dep('postgres configured', :version) {
   end
 
   met? {
-    babushka_config?(postgres_dir / 'pg_hba.conf') &&
-    babushka_config?(postgres_dir / 'postgresql.conf')
+    sudo :as => 'postgres' do
+      babushka_config?(postgres_dir / 'pg_hba.conf') &&
+      babushka_config?(postgres_dir / 'postgresql.conf')
+    end
   }
 
   meet {
