@@ -7,9 +7,11 @@ dep('test environment') {
     'python build environment',
     'yaml configured',
     'timetrap configured',
+    'java installed',
     'git.managed',
     'libqt4 installed',
     'libv8 installed',
+    'imagemagick.managed',
 
     # Databases
     'sqlite installed',

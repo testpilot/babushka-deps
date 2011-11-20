@@ -3,11 +3,10 @@ dep('ant installed') {
 }
 
 dep('java installed') {
-  requires 'openjdk-6-jdk.managed', 'default-jdk.managed'
-
-  met? {}
-
-  meet {
-    shell "update-java-alternatives -s java-6-openjdk"
-  }
+  requires 'java.managed'
 }
+
+dep 'java.managed' do
+  installs { via :apt, 'sun-java6-jre' }
+  after { shell "set -Ux JAVA_HOME /usr/lib/jvm/java-6-sun" }
+end
