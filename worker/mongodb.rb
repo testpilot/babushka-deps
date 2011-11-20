@@ -5,7 +5,7 @@ dep('mongodb installed') {
 dep('mongodb.apt_repository') {
   requires 'mongodb apt source key'
   uri 'http://downloads-distro.mongodb.org/repo/debian-sysvinit'
-  name '10gen'
+  repo_name '10gen'
   distro 'dist'
 }
 
