@@ -47,7 +47,7 @@ dep('known hosts.config_rendered') {
 meta :config_rendered do
   accepts_value_for :source
   accepts_value_for :to
-  render_args :render_args, :default_render_args
+  accepts_value_for :render_args, :default_render_args
 
   def default_render_args
     {:to => to}
