@@ -1,5 +1,5 @@
 dep('workspace setup') {
-  requires 'root bashrc.config_rendered', 'test_environment.config_rendered', 'bashrc.config_rendered', 'germrc.config_rendered', 'known hosts.config_rendered'
+  requires 'test_environment.config_rendered', 'bashrc.config_rendered', 'germrc.config_rendered', 'known hosts.config_rendered'
 }
 
 dep('root bashrc.config_rendered') {
