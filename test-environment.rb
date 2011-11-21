@@ -14,6 +14,7 @@ dep('test environment') {
     'imagemagick.managed',
     'xvfb installed',
     'firefox installed',
+    'workspace setup',
 
     # Databases
     'sqlite installed',
