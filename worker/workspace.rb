@@ -52,11 +52,6 @@ dep('known hosts rendered') {
 }
 
 dep('workspace directory exists') {
-  met? {
-    "/home/ubuntu/workspace".p.exists?
-  }
-
-  meet {
-    shell "mkdir -p /home/ubuntu/workspace"
-  }
+  met? { "/home/ubuntu/workspace".p.exists? }
+  meet { shell "mkdir -p /home/ubuntu/workspace" }
 }
