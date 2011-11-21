@@ -24,7 +24,7 @@ end
 
 dep('postgres running') {
   met? {
-    shell? "ps auwwx | grep postgresql"
+    shell? "ps auwwx | grep postgres"
   }
 
   meet {
