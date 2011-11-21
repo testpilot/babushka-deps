@@ -22,7 +22,19 @@ dep 'postgres access' do
   meet { sudo "createuser -SdR #{var :username}", :as => 'postgres' }
 end
 
+dep('postgres running') {
+  met? {
+    shell? "ps auwwx | grep postgresql"
+  }
+
+  meet {
+    sudo "service postgresql start"
+  }
+}
+
 dep('postgres test users exist') {
+  requires 'postgres running'
+
   users = ['rails', 'ubuntu']
 
   met? {
