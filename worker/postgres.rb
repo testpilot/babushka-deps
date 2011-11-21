@@ -1,5 +1,5 @@
 dep('postgresql installed'){
-  requires 'postgres.managed', 'postgres configured', 'sysctl shared memory configured'
+  requires 'postgres.managed', 'postgres configured', 'sysctl shared memory configured', 'postgres test users exist', 'postgres on startup'
 }
 
 dep 'postgres.managed', :version do
@@ -21,6 +21,23 @@ dep 'postgres access' do
   met? { !sudo("echo '\\du' | #{which 'psql'}", :as => 'postgres').split("\n").grep(/^\W*\b#{var :username}\b/).empty? }
   meet { sudo "createuser -SdR #{var :username}", :as => 'postgres' }
 end
+
+dep('postgres test users exist') {
+  users = ['rails', 'ubuntu', 'postgres']
+
+  met? {
+    users.all? do |user|
+      !sudo("echo '\\du' | #{which 'psql'}", :as => 'postgres').split("\n").grep(/^\W*\b#{user}\b/).empty?
+    end
+  }
+
+  meet {
+    users.each do |user|
+      sudo "dropuser --username postgres #{user}", :as => 'postgres'
+      sudo "createuser --no-password --superuser #{user}", :as => 'postgres'
+    end
+  }
+}
 
 dep 'pg.gem' do
   requires 'postgres.managed'
@@ -67,4 +84,8 @@ dep('sysctl shared memory configured') {
   meet {
     render_erb "postgres/30-shared-memory.conf.erb", :to => "/etc/sysctl.d/30-postgresql-shm.conf", :sudo => true
   }
+}
+
+dep('postgres on startup') {
+  
 }
