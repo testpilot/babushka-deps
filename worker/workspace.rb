@@ -1,5 +1,5 @@
 dep('workspace setup') {
-  requires 'root bashrc rendered', 'bashrc rendered', 'test_environment rendered', 'germrc rendered', 'known hosts rendered'
+  requires 'root bashrc rendered', 'bashrc rendered', 'test_environment rendered', 'germrc rendered', 'known hosts rendered', 'workspace directory exists'
 }
 
 dep('root bashrc rendered') {
@@ -51,4 +51,12 @@ dep('known hosts rendered') {
   }
 }
 
+dep('workspace directory exists') {
+  met? {
+    "/home/ubuntu/workspace".p.exists?
+  }
 
+  meet {
+    shell "mkdir -p /home/ubuntu/workspace"
+  }
+}
