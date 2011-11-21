@@ -23,7 +23,7 @@ dep 'postgres access' do
 end
 
 dep('postgres test users exist') {
-  users = ['rails', 'ubuntu', 'postgres']
+  users = ['rails', 'ubuntu']
 
   met? {
     users.all? do |user|
@@ -33,7 +33,9 @@ dep('postgres test users exist') {
 
   meet {
     users.each do |user|
-      sudo "dropuser --username postgres #{user}", :as => 'postgres'
+      unless sudo("echo '\\du' | #{which 'psql'}", :as => 'postgres').split("\n").grep(/^\W*\b#{user}\b/).empty?
+        sudo "dropuser --username postgres #{user}", :as => 'postgres'
+      end
       sudo "createuser --no-password --superuser #{user}", :as => 'postgres'
     end
   }
@@ -87,5 +89,5 @@ dep('sysctl shared memory configured') {
 }
 
 dep('postgres on startup') {
-  
+
 }
