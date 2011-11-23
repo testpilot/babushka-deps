@@ -1,9 +1,9 @@
 dep('postgresql installed'){
-  requires 'postgres.managed', 'postgres configured', 'sysctl shared memory configured', 'postgres test users exist', 'postgres on startup'
+  requires 'postgres.managed', 'postgres configured', 'sysctl shared memory configured', 'postgres test users exist'
 }
 
 dep 'postgres.managed', :version do
-  version.default('9.1')
+  version.default!('9.1')
 
   requires {
     on :apt, 'set.locale', 'postgres.ppa'
@@ -63,7 +63,7 @@ dep 'postgres.ppa' do
 end
 
 dep('postgres configured', :version) {
-  version.default('9.1')
+  version.default!('9.1')
 
   def postgres_dir
     "/etc/postgresql/#{version}/main"
@@ -102,6 +102,16 @@ dep('sysctl shared memory configured') {
   }
 }
 
-dep('postgres on startup') {
+dep 'dummy unaccenting dictionary installed', :db_name do
+  if !db_name.set? && ENV["DATABASE_URL"]
+    begin
+      uri = URI.parse(ENV["DATABASE_URL"])
+    rescue URI::InvalidURIError
+      raise "Invalid DATABASE_URL"
+    end
+    db_name.default! uri.path.split("/")[1]
+  end
 
-}
+  met? { shell?("psql #{db_name} -c '\\dF' | grep unaccenting_english_stemmer") }
+  meet { shell("psql #{db_name} -c 'create text search configuration public.unaccenting_english_stemmer (copy = pg_catalog.english);'") }
+end

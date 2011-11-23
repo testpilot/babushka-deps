@@ -5,7 +5,8 @@ dep('ruby environment', :global_ruby_versions){
     'bundler.global_gem'.with(global_ruby_versions),
     'rake.global_gem'.with(global_ruby_versions),
     'rails.global_gem'.with(global_ruby_versions),
-    'therubyracer.global_gem'.with(global_ruby_versions)
+    'therubyracer.global_gem'.with(global_ruby_versions),
+    'nokogiri.global_gem'.with(global_ruby_versions)
   ]
 }
 
@@ -31,4 +32,9 @@ dep('rails.global_gem', :ruby_versions) {
 dep('therubyracer.global_gem', :ruby_versions) {
   rubies *('1.9.2, 1.9.3'.to_s.split(',').map(&:chomp))
   versions '0.8.2', '0.9.3', '0.9.4', '0.9.5', '0.9.6', '0.9.7', '0.9.8'
+}
+
+dep('nokogiri.global_gem', :ruby_versions) {
+  rubies *('1.8.7, 1.9.2, 1.9.3'.to_s.split(',').map(&:chomp))
+  versions '1.5.0'
 }
