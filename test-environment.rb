@@ -11,6 +11,7 @@ dep('test environment') {
     'git.managed',
     'libqt4 installed',
     'libv8 installed',
+    'nodejs multi installed',
     'imagemagick.managed',
     'xvfb installed',
     'firefox installed',
