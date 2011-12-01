@@ -1,12 +1,12 @@
 XVFB=/usr/bin/Xvfb
-XVFBARGS=":99 -ac -screen 0 1024x768x16"
-PIDFILE=/tmp/cucumber_xvfb_99.pid
+XVFBARGS=":0 -ac -screen 0 1024x768x24"
+PIDFILE=/tmp/cucumber_xvfb_0.pid
 case "$1" in
   start)
-    echo -n "Starting virtual X frame buffer: Xvfb"
-    export DISPLAY=:99.0
+    echo -n "Starting virtual X frame buffer: Xvfb... "
+    export DISPLAY=:0
     /sbin/start-stop-daemon --start --quiet --pidfile $PIDFILE --make-pidfile --background --exec $XVFB -- $XVFBARGS
-    echo "Xvfb started with PID: `cat $PIDFILE` Display ID: :99.0"
+    echo "started with PID: `cat $PIDFILE` Display ID: :0"
     ;;
   stop)
     echo -n "Stopping virtual X frame buffer: Xvfb"
