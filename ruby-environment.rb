@@ -38,3 +38,14 @@ dep('nokogiri.global_gem', :ruby_versions) {
   rubies *('1.8.7, 1.9.2, 1.9.3'.to_s.split(',').map(&:chomp))
   versions '1.5.0'
 }
+
+dep('json.global_gem', :ruby_versions) {
+  rubies *('1.8.7, 1.9.2, 1.9.3'.to_s.split(',').map(&:chomp))
+  versions '1.5.4'
+}
+
+dep('gherkin.global_gem', :ruby_versions) {
+  rubies *('1.8.7, 1.9.2, 1.9.3'.to_s.split(',').map(&:chomp))
+  versions '2.5.1'
+}
+

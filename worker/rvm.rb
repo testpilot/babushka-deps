@@ -124,6 +124,21 @@ meta :global_gem do
   }
 end
 
+meta :gemcutter do
+  accepts_list_for :rubies
+
+  def gem_name
+    name.split('.').first
+  end
+
+  def get_gem_data
+    require 'json'
+
+  end
+
+
+end
+
 meta :gem_installed do
   accepts_value_for :version
   accepts_value_for :ruby

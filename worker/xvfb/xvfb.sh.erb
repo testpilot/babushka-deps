@@ -4,8 +4,9 @@ PIDFILE=/tmp/cucumber_xvfb_99.pid
 case "$1" in
   start)
     echo -n "Starting virtual X frame buffer: Xvfb"
+    export DISPLAY=:99.0
     /sbin/start-stop-daemon --start --quiet --pidfile $PIDFILE --make-pidfile --background --exec $XVFB -- $XVFBARGS
-    echo "."
+    echo "Xvfb started with PID: `cat $PIDFILE` Display ID: :99.0"
     ;;
   stop)
     echo -n "Stopping virtual X frame buffer: Xvfb"
