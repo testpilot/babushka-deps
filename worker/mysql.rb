@@ -12,7 +12,7 @@ dep('mysql server installed') {
 
 dep('preseeding directory') {
   met? {
-    sudo "test -x /var/cache/local/preseeding"
+    sudo "stat /var/cache/local/preseeding"
   }
 
   meet {
@@ -22,7 +22,7 @@ dep('preseeding directory') {
 }
 
 dep('mysql server seeded') {
-  met? { sudo "test -x /var/cache/local/preseeding/mysql-server.seed" }
+  met? { sudo "stat /var/cache/local/preseeding/mysql-server.seed" }
   meet {
     render_erb('mysql/mysql-server.seed.erb', :to => '/var/cache/local/preseeding/mysql-server.seed', :sudo => true)
     sudo "debconf-set-selections /var/cache/local/preseeding/mysql-server.seed"
@@ -30,7 +30,7 @@ dep('mysql server seeded') {
 }
 
 dep('mysql server configured') {
-  met? { sudo "test -x /etc/mysql/debian.cnf" }
+  met? { sudo "stat /etc/mysql/debian.cnf" }
   meet {
     render_erb 'mysql/debian.cnf.erb', :to => '/etc/mysql/debian.cnf', :sudo => true
     sudo "chmod 0600 /etc/mysql/debian.cnf"
