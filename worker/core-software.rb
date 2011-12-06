@@ -26,7 +26,8 @@ packages_without_binary = [
   'libxml2-dev',
   'libxslt1-dev',
   'zlib1g-dev',
-  'util-linux'
+  'util-linux',
+  'libossp-uuid-dev'
 ].each { |p|
   dep [p, 'managed'].join('.') do
     provides []

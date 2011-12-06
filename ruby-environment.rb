@@ -6,7 +6,9 @@ dep('ruby environment', :global_ruby_versions){
     'rake.global_gem'.with(global_ruby_versions),
     'rails.global_gem'.with(global_ruby_versions),
     'therubyracer.global_gem'.with(global_ruby_versions),
-    'nokogiri.global_gem'.with(global_ruby_versions)
+    'nokogiri.global_gem'.with(global_ruby_versions),
+    'gherkin.global_gem'.with(global_ruby_versions),
+    'json.global_gem'.with(global_ruby_versions)
   ]
 }
 
