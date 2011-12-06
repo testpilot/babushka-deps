@@ -20,6 +20,7 @@ dep('test environment') {
     # Databases
     'sqlite installed',
     'postgresql installed',
+    'mysql installed',
     'redis installed',
     'riak installed',
     'mongodb installed',
