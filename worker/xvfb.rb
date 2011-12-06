@@ -3,7 +3,7 @@ dep('xvfb installed') {
 }
 
 dep('xvfb.managed') {
-  installs { via :apt, *%w[server-xorg-core xvfb xfonts-base xfonts-75dpi xfonts-100dpi] }
+  installs { via :apt, *%w[xserver-xorg-core xvfb xfonts-base xfonts-75dpi xfonts-100dpi] }
   provides []
 }
 
