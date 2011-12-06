@@ -7,7 +7,7 @@ dep('mysql.managed') {
 }
 
 dep('mysql server installed') {
-  requires 'preseeding directory', 'mysql server seeded', 'mysql server configured', 'mysql-server.managed'
+  requires 'preseeding directory', 'mysql server seeded', 'mysql server configured', 'mysql-server.managed', 'mysql configured'
 }
 
 dep('preseeding directory') {
