@@ -7,7 +7,10 @@ dep('mysql.managed') {
 }
 
 dep('mysql server installed') {
-  requires 'preseeding directory', 'mysql server seeded', 'mysql server configured', 'mysql-server.managed', 'mysql configured'
+  requires 'preseeding directory', 'mysql server seeded', 'mysql server configured', 'mysql-server.managed', 'mysql configured', 'mysql has blank root password'
+  after {
+    shell "sudo service mysql restart"
+  }
 }
 
 dep('preseeding directory') {
@@ -48,5 +51,12 @@ dep('mysql configured') {
   meet {
     render_erb "mysql/my.cnf.erb", :to => '/etc/mysql/my.cnf', :sudo => true
     sudo "chmod 0644 /etc/mysql/my.cnf"
+  }
+}
+
+dep('mysql has blank root password') {
+  met? { shell? "/usr/bin/mysql -u root -e 'show databases;'" }
+  meet {
+    shell "/usr/bin/mysqladmin -u root password \"\""
   }
 }

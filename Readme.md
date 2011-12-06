@@ -29,6 +29,7 @@ versions without issue.
 
 - Sqlite 3
 - PostgreSQL
+- MySQL
 - Redis
 - Riak
 - MongoDB
