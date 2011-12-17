@@ -71,7 +71,7 @@ dep('mysql seeded with users') {
     shell?("/usr/bin/mysql -u root -e 'SELECT user FROM mysql.user;' | grep 'ubuntu'")
   }
   meet {
-    render_erb "mysql/grants.sql.erb", :to => grants_path, :sudo => true
+    render_erb "mysql/mysql_grants.sql.erb", :to => grants_path, :sudo => true
     sudo "chmod 0600 #{grants_path}"
     sudo "/usr/bin/mysql -u root '' < #{grants_path}"
   }
