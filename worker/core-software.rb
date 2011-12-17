@@ -12,7 +12,8 @@ packages = [
   'ethtool',
   'tcpdump',
   'elinks',
-  'lynx'
+  'lynx',
+  'htop'
 ].each do |package|
   dep [package, 'managed'].join('.')
 end
