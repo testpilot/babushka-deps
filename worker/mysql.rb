@@ -72,7 +72,7 @@ dep('mysql seeded with users') {
   }
   meet {
     render_erb "mysql/mysql_grants.sql.erb", :to => grants_path, :sudo => true
-    sudo "chmod 0600 #{grants_path}"
-    sudo "/usr/bin/mysql -u root '' < #{grants_path}"
+    sudo "chmod 0644 #{grants_path}"
+    shell "/usr/bin/mysql -u root '' < #{grants_path}"
   }
 }
