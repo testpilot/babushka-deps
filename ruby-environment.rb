@@ -60,6 +60,6 @@ dep('mysql2.global_gem', :ruby_versions) {
 
 dep('pg.global_gem', :ruby_versions) {
   rubies *('1.8.7, 1.9.2, 1.9.3'.to_s.split(',').map(&:chomp))
-  versions '0.12.0', 0.11.0, '0.10.1'
+  versions '0.12.0', '0.11.0', '0.10.1'
 }
 
