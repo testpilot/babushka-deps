@@ -32,6 +32,7 @@ dep('sphinx installed', :version) {
     # Download libstemmer_c and copy to here
     Babushka::Resource.get('http://snowball.tartarus.org/dist/libstemmer_c.tgz') do |download_path|
       shell "cp #{download_path} ./"
+      shell "tar zxvf libstemmer_c.tgz"
     end
     
     shell "./configure --with-mysql --with-pgsql --with-libstemmer --prefix=#{path} "
