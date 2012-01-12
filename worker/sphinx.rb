@@ -7,10 +7,6 @@ dep('libmysql++-dev.managed') { provides [] }
 dep('sphinx installed', :version) {
   requires 'libmysql++-dev.managed'
   
-  def tmp_install_dir
-    '/tmp' / 'sphinx_install'
-  end
-  
   def sphinx_src_path
     "http://www.sphinxsearch.com/files/sphinx-#{version}.tar.gz"
   end
@@ -24,8 +20,6 @@ dep('sphinx installed', :version) {
   }
   
   meet {
-    # shell "mkdir -p #{tmp_install_dir} && cd #{tmp_install_dir}"
-    
     # Download and extract, entering new directory
     Babushka::Resource.extract(sphinx_src_path) do
       # Download libstemmer_c and copy to here
@@ -37,22 +31,7 @@ dep('sphinx installed', :version) {
       log "Sphinx directory is: #{shell('pwd')}"
     
       log_shell "Configuring Sphinx #{version} with stemmer support for installation into #{path}", "./configure --with-mysql --with-pgsql --with-libstemmer --prefix=#{path}"
-      log_shell "Compiling Sphinx...", "make && make install"
+      log_shell "Compiling Sphinx", "make && make install", :sudo => true
     end
-        
-    # cp libstemmer_c.tgz sphinx-#{version}/libstemmer_c.tgz
-    # cd sphinx-#{version}
-    # tar zxvf libstemmer_c.tgz
-    # ./configure --with-mysql --with-pgsql --with-libstemmer --prefix=#{path} 
-    # make && make install
-    # 
   }
 }
-
-# dep('libstemmer installed once') {
-#   meet {
-#     Babushka::Resource.get('http://snowball.tartarus.org/dist/libstemmer_c.tgz') do |download_path|
-#       log_shell("Installing Riak", "dpkg -i #{download_path}", :log => true, :sudo => true)
-#     end
-#   }
-# }
