@@ -36,8 +36,8 @@ dep('sphinx installed', :version) {
     
       log "Sphinx directory is: #{shell('pwd')}"
     
-      shell "./configure --with-mysql --with-pgsql --with-libstemmer --prefix=#{path} "
-      shell "make && make install"
+      log_shell "Configuring Sphinx #{version} with stemmer support for installation into #{path}", "./configure --with-mysql --with-pgsql --with-libstemmer --prefix=#{path}"
+      log_shell "Compiling Sphinx...", "make && make install"
     end
         
     # cp libstemmer_c.tgz sphinx-#{version}/libstemmer_c.tgz
