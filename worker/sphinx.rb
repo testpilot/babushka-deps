@@ -15,7 +15,7 @@ dep('sphinx installed', :version, :main) {
   end
   
   def path
-    '/usr/local' / version
+    '/usr/local' / "sphinx-#{version}"
   end
   
   met? {
