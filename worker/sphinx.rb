@@ -39,7 +39,7 @@ dep('sphinx installed', :version, :main) {
       
       if main == 'true' # ugly hax
         %w( indexer indextool search searchd spelldump ).each do |binary|
-          log_shell "Linking #{binary}", "sudo ln -s #{path / binary} /usr/local/bin/#{binary}"
+          log_shell "Linking #{binary}", "sudo ln -s #{path / 'bin' / binary} /usr/local/bin/#{binary}"
         end
       end
     end
