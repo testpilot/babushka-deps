@@ -1,13 +1,9 @@
 dep('sphinx multiple versions installed') {
-  requires  'sphinx 2.0.1-beta installed', 
-            'sphinx 1.10-beta installed',
-            'sphinx 0.9.9 installed',
-            'sphinx binaries linked'.with('2.0.1-beta')
+  requires 'sphinx installed'.with('2.0.1-beta'), 
+           'sphinx installed'.with('1.10-beta'), 
+           'sphinx installed'.with('sphinx 0.9.9'),
+           'sphinx binaries linked'.with('2.0.1-beta')
 }
-
-dep('sphinx 2.0.1-beta installed')  { requires 'sphinx installed'.with('2.0.1-beta')    }
-dep('sphinx 1.10-beta installed')   { requires 'sphinx installed'.with('1.10-beta')     }
-dep('sphinx 0.9.9 installed')       { requires 'sphinx installed'.with('sphinx 0.9.9')  }
 
 dep('libmysql++-dev.managed') { provides [] }
 
