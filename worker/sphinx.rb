@@ -1,5 +1,5 @@
 dep('sphinx multiple versions installed') {
-  requires 'sphinx installed'.with('2.0.1-beta', 'true'), 'sphinx installed'.with('1.10-beta'), 'sphinx installed'.with('sphinx 0.9.9')
+  requires 'sphinx installed'.with('2.0.1-beta', 'true'), 'sphinx installed'.with('1.10-beta', 'false'), 'sphinx installed'.with('sphinx 0.9.9', 'false')
 }
 
 dep('libmysql++-dev.managed') { provides [] }
