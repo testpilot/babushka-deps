@@ -19,7 +19,7 @@ dep('sphinx installed', :version, :main) {
   end
   
   met? {
-    false
+    met? { path.exists? && %w( indexer indextool search searchd spelldump ).all? { |binary| (path / 'bin' / binary).exists? } }
   }
   
   meet {
@@ -30,9 +30,7 @@ dep('sphinx installed', :version, :main) {
         shell "cp #{download_path} ./"
         shell "tar zxvf libstemmer_c.tgz"
       end
-    
-      log "Sphinx directory is: #{shell('pwd')}"
-    
+      
       log_shell "Configuring Sphinx #{version} with stemmer support for installation into #{path}", "./configure --with-mysql --with-pgsql --with-libstemmer --prefix=#{path}"
       log_shell "Compiling Sphinx", "make"
       log_shell "Installing", "sudo make install"
