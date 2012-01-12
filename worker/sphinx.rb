@@ -15,15 +15,23 @@ dep('sphinx installed', :version) {
     "http://www.sphinxsearch.com/files/sphinx-#{version}.tar.gz"
   end
   
+  def path
+    '/usr/local' / version
+  end
+  
   met? {
     false
   }
   
   meet {
     # shell "mkdir -p #{tmp_install_dir} && cd #{tmp_install_dir}"
-    Babushka::Resource.extract(sphinx_src_path) do |download_path|
-      puts download_path
-    end
+    
+    # Download and extract, entering new directory
+    Babushka::Resource.extract(sphinx_src_path)
+    Babushka::Resource.extract('http://snowball.tartarus.org/dist/libstemmer_c.tgz')
+    shell "./configure --with-mysql --with-pgsql --with-libstemmer --prefix=#{path} "
+    shell "make && make install"
+    
     # cp libstemmer_c.tgz sphinx-#{version}/libstemmer_c.tgz
     # cd sphinx-#{version}
     # tar zxvf libstemmer_c.tgz
