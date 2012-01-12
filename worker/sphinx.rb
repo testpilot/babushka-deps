@@ -27,19 +27,19 @@ dep('sphinx installed', :version) {
     # shell "mkdir -p #{tmp_install_dir} && cd #{tmp_install_dir}"
     
     # Download and extract, entering new directory
-    Babushka::Resource.extract(sphinx_src_path)
+    Babushka::Resource.extract(sphinx_src_path) do
+      # Download libstemmer_c and copy to here
+      Babushka::Resource.get('http://snowball.tartarus.org/dist/libstemmer_c.tgz') do |download_path|
+        shell "cp #{download_path} ./"
+        shell "tar zxvf libstemmer_c.tgz"
+      end
     
-    # Download libstemmer_c and copy to here
-    Babushka::Resource.get('http://snowball.tartarus.org/dist/libstemmer_c.tgz') do |download_path|
-      shell "cp #{download_path} ./"
-      shell "tar zxvf libstemmer_c.tgz"
+      log "Sphinx directory is: #{shell('pwd')}"
+    
+      shell "./configure --with-mysql --with-pgsql --with-libstemmer --prefix=#{path} "
+      shell "make && make install"
     end
-    
-    log "Sphinx directory is: #{shell('pwd')}"
-    
-    shell "./configure --with-mysql --with-pgsql --with-libstemmer --prefix=#{path} "
-    shell "make && make install"
-    
+        
     # cp libstemmer_c.tgz sphinx-#{version}/libstemmer_c.tgz
     # cd sphinx-#{version}
     # tar zxvf libstemmer_c.tgz
