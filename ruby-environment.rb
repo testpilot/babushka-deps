@@ -20,7 +20,7 @@ dep('required.rubies_installed', :ruby_versions) {
 
 dep('bundler.global_gem', :ruby_versions) {
   rubies *(ruby_versions.to_s.split(',').map(&:chomp) - ['rbx', 'rbx-2.0.0pre'])
-  versions '1.0.21'
+  versions '1.1.rc.7'
 }
 
 dep('rake.global_gem', :ruby_versions) {
