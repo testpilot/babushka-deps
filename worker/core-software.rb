@@ -13,7 +13,8 @@ packages = [
   'tcpdump',
   'elinks',
   'lynx',
-  'htop'
+  'htop',
+  'curl'
 ].each do |package|
   dep [package, 'managed'].join('.')
 end
@@ -28,7 +29,9 @@ packages_without_binary = [
   'libxslt1-dev',
   'zlib1g-dev',
   'util-linux',
-  'libossp-uuid-dev'
+  'libossp-uuid-dev',
+  'libcurl3',
+  'libcurl3-dev'
 ].each { |p|
   dep [p, 'managed'].join('.') do
     provides []
