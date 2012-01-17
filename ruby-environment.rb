@@ -3,16 +3,6 @@ dep('ruby environment', :global_ruby_versions){
     'rvm with multiple rubies',
     'required.rubies_installed'.with(global_ruby_versions),
     'latest versions of popular gems'
-    # 'bundler.global_gem'.with(global_ruby_versions),
-    # 'rake.global_gem'.with(global_ruby_versions),
-    # 'rails.global_gem'.with(global_ruby_versions),
-    # 'therubyracer.global_gem'.with(global_ruby_versions),
-    # 'nokogiri.global_gem'.with(global_ruby_versions),
-    # 'gherkin.global_gem'.with(global_ruby_versions),
-    # 'json.global_gem'.with(global_ruby_versions),
-    # 'pg.global_gem'.with(global_ruby_versions),
-    # 'mysql2.global_gem'.with(global_ruby_versions),
-    # 'typhoeus.global_gem'.with(global_ruby_versions)
   ]
 }
 
@@ -20,64 +10,27 @@ dep('required.rubies_installed', :ruby_versions) {
   rubies *ruby_versions.to_s.split(',').map(&:chomp)
 }
 
-# dep('bundler.global_gem', :ruby_versions) {
-#   rubies *(ruby_versions.to_s.split(',').map(&:chomp) - ['rbx', 'rbx-2.0.0pre'])
-#   versions '1.1.rc.7'
-# }
-# 
-# dep('rake.global_gem', :ruby_versions) {
-#   rubies *ruby_versions.to_s.split(',').map(&:chomp)
-#   versions '0.8.7', '0.9.2'
-# }
-# 
-# dep('rails.global_gem', :ruby_versions) {
-#   rubies *(ruby_versions.to_s.split(',').map(&:chomp) - ['rbx', 'rbx-2.0.0pre'])
-#   versions '2.1.2', '2.2.3', '2.3.14', '3.0.0', '3.0.1', '3.0.2', '3.0.3', '3.0.4', '3.0.5', '3.0.6', '3.0.7', '3.0.8', '3.0.9', '3.0.10', '3.1.0', '3.1.1', '3.1.2'
-# }
-# 
-# dep('therubyracer.global_gem', :ruby_versions) {
-#   rubies *('1.9.2, 1.9.3'.to_s.split(',').map(&:chomp))
-#   versions '0.8.2', '0.9.3', '0.9.4', '0.9.5', '0.9.6', '0.9.7', '0.9.8'
-# }
-# 
-# dep('nokogiri.global_gem', :ruby_versions) {
-#   rubies *('1.8.7, 1.9.2, 1.9.3'.to_s.split(',').map(&:chomp))
-#   versions '1.5.0'
-# }
-# 
-# dep('json.global_gem', :ruby_versions) {
-#   rubies *('1.8.7, 1.9.2, 1.9.3'.to_s.split(',').map(&:chomp))
-#   versions '1.5.4'
-# }
-# 
-# dep('gherkin.global_gem', :ruby_versions) {
-#   rubies *('1.8.7, 1.9.2, 1.9.3'.to_s.split(',').map(&:chomp))
-#   versions '2.5.1'
-# }
-# 
-# dep('mysql2.global_gem', :ruby_versions) {
-#   rubies *('1.8.7, 1.9.2, 1.9.3'.to_s.split(',').map(&:chomp))
-#   versions '0.3.11', '0.3.10', '0.3.9', '0.3.8'
-# }
-# 
-# dep('pg.global_gem', :ruby_versions) {
-#   rubies *('1.8.7, 1.9.2, 1.9.3'.to_s.split(',').map(&:chomp))
-#   versions '0.12.0', '0.11.0', '0.10.1'
-# }
-# 
-# dep('typhoeus.global_gem', :ruby_versions) {
-#   rubies *('1.8.7, 1.9.2, 1.9.3'.to_s.split(',').map(&:chomp))
-#   versions '0.3.3', '0.3.2', '0.2.4', '0.2.3', '0.2.2'
-# }
-#
 # This automatically installs the last 10 versions of popular gems
 # in order to speed up ruby dependency installation.
 
+# Wrap everything in a lambda so that we can lazily load it later
+# (This process currently doesn't work due to the way babs works)
+# We can probably just lazily eval the version lookup later.
+#
 load_gems = lambda {
   require "rubygems"
   require 'json'
   require 'net/http'
 
+  # Create an array of common gems which can be added to later very easily.
+  # The syntax is gemname:<array start index>,<array end index>
+  #
+  # Basically the API call to rubygems below returns an array of version numbers,
+  # and because some of these are just way too outdated to be useful we might only want
+  # to install the last 5 or 10 releases, which is what the numbers are the : are restricting.
+  #
+  # e.g. rails:0,5 will return rails 3.1.2, 3.1.1, 3.1.0, 3.0.11, 3.0.10
+  #
   gems = %w(
   typhoeus
   pg
@@ -109,7 +62,6 @@ load_gems = lambda {
   thin
   state_machine
   simple_form
-  settingslogic
   sass-rails
   resque
   sinatra
@@ -127,16 +79,20 @@ load_gems = lambda {
   journey:0,1
   ).reverse
 
+  # Returns an array of dep names
   gem_requires = gems.map do |gem_name|
     puts "---> Fetching gem versions for #{gem_name}"
 
+    # Split gem name on :
     if gem_name.include?(':')
       version_range = gem_name.split(':',2).last.split(',').map(&:strip).map(&:to_i)
       gem_name = gem_name.split(':').first
     else
+      # If no version range was supplied in the name, default here.
       version_range = [0,10]
     end
 
+    # Load gem versions from rubygems.org API
     gem_versions = JSON.parse(Net::HTTP.get("rubygems.org", "/api/v1/versions/#{gem_name}.json")).
       select {|gem| gem['prerelease'] == false }.
       select {|gem| gem['platform'] == 'ruby' }.
@@ -146,20 +102,26 @@ load_gems = lambda {
 
     unless gem_versions.empty?
       dep("#{gem_name}.global_gem") {
+        # Install for MRI only at this stage
+        # TODO: Use rubygems designated platform for ruby VM
+        # e.g. ruby = MRI, jruby = JRUBY
         rubies *%w(1.8.7 1.9.2 1.9.3)
+        # Pass gem versions array to dep argument
         versions *gem_versions
       }
       puts "     Defined dep '#{gem_name}.global_gem'"
     end
-
+    # Return dep name
     "#{gem_name}.global_gem"
   end
 
   gem_requires
 }
 
+# Eval gem lambda
 gem_deps = instance_eval(&load_gems)
 
+# Create a dep which requires all of the above.
 dep('latest versions of popular gems'){
   requires gem_deps
 }
