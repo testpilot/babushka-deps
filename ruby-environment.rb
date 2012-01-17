@@ -127,18 +127,20 @@ delorean
 gems.each do |gem_name|
   puts "Fetching ruby versions for #{gem_name}"
 
-  gem_versions = JSON.parse(Net::HTTP.get("rubygems.org", "/api/v1/versions/#{gem_name}.json")).
-    select {|gem| gem['prerelease'] == false }.
-    select {|gem| gem['platform'] == 'ruby' }.
-    map {|gem| gem['number']}
-
   if gem_name.include?(':')
     version_range = gem_name.split(':',2).last.split(',').map(&:strip)
+    gem_name = gem_name.split(':').first
   else
     version_range = [0,10]
   end
 
   gem_versions = gem_versions[*version_range]
+
+  
+  gem_versions = JSON.parse(Net::HTTP.get("rubygems.org", "/api/v1/versions/#{gem_name}.json")).
+    select {|gem| gem['prerelease'] == false }.
+    select {|gem| gem['platform'] == 'ruby' }.
+    map {|gem| gem['number']}
 
   unless gem_versions.empty?
     dep("#{gem_name}.global_gem", :ruby_versions) {
