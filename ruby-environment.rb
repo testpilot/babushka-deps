@@ -128,7 +128,7 @@ gems.each do |gem_name|
   puts "Fetching ruby versions for #{gem_name}"
 
   if gem_name.include?(':')
-    version_range = gem_name.split(':',2).last.split(',').map(&:strip)
+    version_range = gem_name.split(':',2).last.split(',').map(&:strip).map(&:to_i)
     gem_name = gem_name.split(':').first
   else
     version_range = [0,10]
