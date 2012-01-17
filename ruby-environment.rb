@@ -158,7 +158,9 @@ load_gems = lambda {
   gem_requires
 }
 
+context = self
+
 dep('latest versions of popular gems'){
-  requires instance_eval(&load_gems)
+  requires context.instance_eval(&load_gems)
 }
 
