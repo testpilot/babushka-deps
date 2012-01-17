@@ -105,7 +105,7 @@ gems.each do |gem_name|
   gem_versions = JSON.parse(Net::HTTP.get("rubygems.org", "/api/v1/versions/#{gem_name}.json")).select {|gem| gem['prerelease'] == false }.map {|gem| gem['number']}[0,10]
 
   unless gem_versions.empty?
-    dep('typhoeus.global_gem', :ruby_versions) {
+    dep("#{gem_name}.global_gem", :ruby_versions) {
       rubies *('1.8.7, 1.9.2, 1.9.3'.to_s.split(',').map(&:chomp))
       versions *gem_versions
     }
@@ -113,9 +113,7 @@ gems.each do |gem_name|
   end
 end
 
-gem_requires = gems.map do |gem_name|
-  "#{gem_name}.global_gem"
-end
+gem_requires = gems.map { |gem_name| "#{gem_name}.global_gem" }
 
 dep('latest versions of popular gems', :global_ruby_versions){
   requires gem_requires
