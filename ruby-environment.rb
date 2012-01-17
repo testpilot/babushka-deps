@@ -97,19 +97,44 @@ multi_json
 faraday
 faraday_middleware
 airbrake
+validates_timeliness
+unicorn
+uglifier
+timeliness
+thin
+state_machine
+simple_form
+settingslogic
+sass-rails
+resque
+sinatra
+minitest
+minitest-matchers
+ruby-progressbar
+mongrel
+kaminari
+jquery-rails
+inherited_resources
+responders
+heroku
+eventmachine
+delorean
 ).reverse
 
 gems.each do |gem_name|
   puts "Fetching ruby versions for #{gem_name}"
 
-  gem_versions = JSON.parse(Net::HTTP.get("rubygems.org", "/api/v1/versions/#{gem_name}.json")).select {|gem| gem['prerelease'] == false }.map {|gem| gem['number']}[0,10]
+  gem_versions = JSON.parse(Net::HTTP.get("rubygems.org", "/api/v1/versions/#{gem_name}.json")).
+    select {|gem| gem['prerelease'] == false }.
+    select {|gem| gem['platform'] == 'ruby' }.
+    map {|gem| gem['number']}[0,10]
 
   unless gem_versions.empty?
     dep("#{gem_name}.global_gem", :ruby_versions) {
       rubies *('1.8.7, 1.9.2, 1.9.3'.to_s.split(',').map(&:chomp))
       versions *gem_versions
     }
-    puts "Defined dep 'typhoeus.global_gem'"
+    puts "Defined dep '#{gem_name}.global_gem'"
   end
 end
 
