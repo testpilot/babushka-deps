@@ -73,7 +73,8 @@ require "rubygems"
 require 'json'
 require 'net/http'
 
-gems = %w(typhoeus
+gems = %w(
+typhoeus
 pg
 mysql2
 sqlite3
@@ -95,7 +96,8 @@ rest-client
 multi_json
 faraday
 faraday_middleware
-airbrake).reverse
+airbrake
+).reverse
 
 gems.each do |gem_name|
   puts "Fetching ruby versions for #{gem_name}"
@@ -107,7 +109,7 @@ gems.each do |gem_name|
       rubies *('1.8.7, 1.9.2, 1.9.3'.to_s.split(',').map(&:chomp))
       versions *gem_versions
     }
-
+    puts "Defined dep 'typhoeus.global_gem'"
   end
 end
 
