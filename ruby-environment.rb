@@ -146,7 +146,7 @@ load_gems = lambda {
 
     unless gem_versions.empty?
       dep("#{gem_name}.global_gem") {
-        rubies *%w('1.8.7 1.9.2 1.9.3')
+        rubies *%w(1.8.7 1.9.2 1.9.3)
         versions *gem_versions
       }
       puts "     Defined dep '#{gem_name}.global_gem'"
