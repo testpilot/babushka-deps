@@ -124,7 +124,7 @@ eventmachine:0,3
 delorean
 ).reverse
 
-gems.each do |gem_name|
+gem_requires = gems.map do |gem_name|
   puts "Fetching ruby versions for #{gem_name}"
 
   if gem_name.include?(':')
@@ -148,9 +148,9 @@ gems.each do |gem_name|
     }
     puts "Defined dep '#{gem_name}.global_gem'"
   end
-end
 
-gem_requires = gems.map { |gem_name| "#{gem_name}.global_gem" }
+  "#{gem_name}.global_gem"
+end
 
 dep('latest versions of popular gems', :global_ruby_versions){
   requires gem_requires
