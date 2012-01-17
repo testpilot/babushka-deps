@@ -134,13 +134,12 @@ gems.each do |gem_name|
     version_range = [0,10]
   end
 
-  gem_versions = gem_versions[*version_range]
-
-  
   gem_versions = JSON.parse(Net::HTTP.get("rubygems.org", "/api/v1/versions/#{gem_name}.json")).
     select {|gem| gem['prerelease'] == false }.
     select {|gem| gem['platform'] == 'ruby' }.
     map {|gem| gem['number']}
+
+  gem_versions = gem_versions[*version_range]
 
   unless gem_versions.empty?
     dep("#{gem_name}.global_gem", :ruby_versions) {
