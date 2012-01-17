@@ -145,8 +145,8 @@ load_gems = lambda {
     gem_versions = gem_versions[*version_range]
 
     unless gem_versions.empty?
-      dep("#{gem_name}.global_gem", :ruby_versions) {
-        rubies *('1.8.7, 1.9.2, 1.9.3'.to_s.split(',').map(&:chomp))
+      dep("#{gem_name}.global_gem") {
+        rubies *%w('1.8.7 1.9.2 1.9.3')
         versions *gem_versions
       }
       puts "Defined dep '#{gem_name}.global_gem'"
@@ -158,7 +158,7 @@ load_gems = lambda {
   gem_requires
 }
 
-dep('latest versions of popular gems', :global_ruby_versions){
+dep('latest versions of popular gems'){
   requires load_gems.call
 }
 
