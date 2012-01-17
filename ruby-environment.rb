@@ -159,6 +159,6 @@ load_gems = lambda {
 }
 
 dep('latest versions of popular gems'){
-  requires load_gems.call
+  requires instance_eval(&load_gems)
 }
 
