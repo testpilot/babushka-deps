@@ -10,7 +10,8 @@ dep('ruby environment', :global_ruby_versions){
     'gherkin.global_gem'.with(global_ruby_versions),
     'json.global_gem'.with(global_ruby_versions),
     'pg.global_gem'.with(global_ruby_versions),
-    'mysql2.global_gem'.with(global_ruby_versions)
+    'mysql2.global_gem'.with(global_ruby_versions),
+    'typhoeus.global_gem'.with(global_ruby_versions)
   ]
 }
 
@@ -62,4 +63,10 @@ dep('pg.global_gem', :ruby_versions) {
   rubies *('1.8.7, 1.9.2, 1.9.3'.to_s.split(',').map(&:chomp))
   versions '0.12.0', '0.11.0', '0.10.1'
 }
+
+dep('typhoeus.global_gem', :ruby_versions) {
+  rubies *('1.8.7, 1.9.2, 1.9.3'.to_s.split(',').map(&:chomp))
+  versions '0.3.3', '0.3.2', '0.2.4', '0.2.3', '0.2.2'
+}
+
 

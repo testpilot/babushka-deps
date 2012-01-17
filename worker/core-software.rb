@@ -30,7 +30,7 @@ packages_without_binary = [
   'zlib1g-dev',
   'util-linux',
   'libossp-uuid-dev',
-  'libcurl4',
+  'libcurl3',
   'libcurl4-openssl-dev'
 ].each { |p|
   dep [p, 'managed'].join('.') do
