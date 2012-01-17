@@ -128,7 +128,7 @@ load_gems = lambda {
   ).reverse
 
   gem_requires = gems.map do |gem_name|
-    puts "Fetching ruby versions for #{gem_name}"
+    puts "---> Fetching gem versions for #{gem_name}"
 
     if gem_name.include?(':')
       version_range = gem_name.split(':',2).last.split(',').map(&:strip).map(&:to_i)
@@ -146,10 +146,10 @@ load_gems = lambda {
 
     unless gem_versions.empty?
       dep("#{gem_name}.global_gem") {
-        rubies *%w('1.8.7 1.9.2 1.9.3')
-        versions *gem_versions
+        self.rubies *%w('1.8.7 1.9.2 1.9.3')
+        self.versions *gem_versions
       }
-      puts "Defined dep '#{gem_name}.global_gem'"
+      puts "     Defined dep '#{gem_name}.global_gem'"
     end
 
     "#{gem_name}.global_gem"
