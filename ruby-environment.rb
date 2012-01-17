@@ -72,87 +72,93 @@ dep('required.rubies_installed', :ruby_versions) {
 #
 # This automatically installs the last 10 versions of popular gems
 # in order to speed up ruby dependency installation.
-require "rubygems"
-require 'json'
-require 'net/http'
 
-gems = %w(
-typhoeus
-pg
-mysql2
-sqlite3
-gherkin
-nokogiri
-therubyracer
-rails
-rake
-bundler
-timecop
-shoulda
-rdoc
-newgem
-rubigen
-metaclass
-json
-iron_mq
-rest-client
-multi_json
-faraday
-faraday_middleware
-airbrake
-validates_timeliness
-unicorn
-uglifier
-timeliness
-thin
-state_machine
-simple_form
-settingslogic
-sass-rails
-resque
-sinatra
-minitest
-minitest-matchers
-ruby-progressbar
-mongrel
-kaminari
-jquery-rails
-inherited_resources
-responders
-heroku
-eventmachine:0,3
-delorean
-).reverse
+load_gems = lambda {
+  require "rubygems"
+  require 'json'
+  require 'net/http'
 
-gem_requires = gems.map do |gem_name|
-  puts "Fetching ruby versions for #{gem_name}"
+  gems = %w(
+  typhoeus
+  pg
+  mysql2
+  sqlite3
+  gherkin
+  nokogiri
+  therubyracer
+  rails
+  rake
+  bundler
+  timecop
+  shoulda
+  rdoc
+  newgem
+  rubigen
+  metaclass
+  json
+  iron_mq
+  rest-client
+  multi_json
+  faraday
+  faraday_middleware
+  airbrake
+  validates_timeliness
+  unicorn
+  uglifier
+  timeliness
+  thin
+  state_machine
+  simple_form
+  settingslogic
+  sass-rails
+  resque
+  sinatra
+  minitest
+  minitest-matchers
+  ruby-progressbar
+  mongrel
+  kaminari
+  jquery-rails:0,2
+  inherited_resources
+  responders
+  heroku
+  eventmachine:0,3
+  delorean
+  journey:0,1
+  ).reverse
 
-  if gem_name.include?(':')
-    version_range = gem_name.split(':',2).last.split(',').map(&:strip).map(&:to_i)
-    gem_name = gem_name.split(':').first
-  else
-    version_range = [0,10]
+  gem_requires = gems.map do |gem_name|
+    puts "Fetching ruby versions for #{gem_name}"
+
+    if gem_name.include?(':')
+      version_range = gem_name.split(':',2).last.split(',').map(&:strip).map(&:to_i)
+      gem_name = gem_name.split(':').first
+    else
+      version_range = [0,10]
+    end
+
+    gem_versions = JSON.parse(Net::HTTP.get("rubygems.org", "/api/v1/versions/#{gem_name}.json")).
+      select {|gem| gem['prerelease'] == false }.
+      select {|gem| gem['platform'] == 'ruby' }.
+      map {|gem| gem['number']}
+
+    gem_versions = gem_versions[*version_range]
+
+    unless gem_versions.empty?
+      dep("#{gem_name}.global_gem", :ruby_versions) {
+        rubies *('1.8.7, 1.9.2, 1.9.3'.to_s.split(',').map(&:chomp))
+        versions *gem_versions
+      }
+      puts "Defined dep '#{gem_name}.global_gem'"
+    end
+
+    "#{gem_name}.global_gem"
   end
 
-  gem_versions = JSON.parse(Net::HTTP.get("rubygems.org", "/api/v1/versions/#{gem_name}.json")).
-    select {|gem| gem['prerelease'] == false }.
-    select {|gem| gem['platform'] == 'ruby' }.
-    map {|gem| gem['number']}
-
-  gem_versions = gem_versions[*version_range]
-
-  unless gem_versions.empty?
-    dep("#{gem_name}.global_gem", :ruby_versions) {
-      rubies *('1.8.7, 1.9.2, 1.9.3'.to_s.split(',').map(&:chomp))
-      versions *gem_versions
-    }
-    puts "Defined dep '#{gem_name}.global_gem'"
-  end
-
-  "#{gem_name}.global_gem"
-end
+  gem_requires
+}
 
 dep('latest versions of popular gems', :global_ruby_versions){
-  requires gem_requires
+  requires load_gems.call
 }
 
