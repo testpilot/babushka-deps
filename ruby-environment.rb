@@ -69,6 +69,9 @@ dep('required.rubies_installed', :ruby_versions) {
 #   rubies *('1.8.7, 1.9.2, 1.9.3'.to_s.split(',').map(&:chomp))
 #   versions '0.3.3', '0.3.2', '0.2.4', '0.2.3', '0.2.2'
 # }
+#
+# This automatically installs the last 10 versions of popular gems
+# in order to speed up ruby dependency installation.
 require "rubygems"
 require 'json'
 require 'net/http'
@@ -117,7 +120,7 @@ jquery-rails
 inherited_resources
 responders
 heroku
-eventmachine
+eventmachine:0,3
 delorean
 ).reverse
 
@@ -127,7 +130,15 @@ gems.each do |gem_name|
   gem_versions = JSON.parse(Net::HTTP.get("rubygems.org", "/api/v1/versions/#{gem_name}.json")).
     select {|gem| gem['prerelease'] == false }.
     select {|gem| gem['platform'] == 'ruby' }.
-    map {|gem| gem['number']}[0,10]
+    map {|gem| gem['number']}
+
+  if gem_name.include?(':')
+    version_range = gem_name.split(':',2).last.split(',').map(&:strip)
+  else
+    version_range = [0,10]
+  end
+
+  gem_versions = gem_versions[*version_range]
 
   unless gem_versions.empty?
     dep("#{gem_name}.global_gem", :ruby_versions) {
