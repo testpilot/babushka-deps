@@ -146,8 +146,8 @@ load_gems = lambda {
 
     unless gem_versions.empty?
       dep("#{gem_name}.global_gem") {
-        self.rubies *%w('1.8.7 1.9.2 1.9.3')
-        self.versions *gem_versions
+        rubies *%w('1.8.7 1.9.2 1.9.3')
+        versions *gem_versions
       }
       puts "     Defined dep '#{gem_name}.global_gem'"
     end
@@ -158,9 +158,9 @@ load_gems = lambda {
   gem_requires
 }
 
-context = self
+gem_deps = instance_eval(&load_gems)
 
 dep('latest versions of popular gems'){
-  requires context.instance_eval(&load_gems)
+  requires gem_deps
 }
 
