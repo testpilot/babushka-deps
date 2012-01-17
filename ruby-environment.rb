@@ -2,6 +2,7 @@ dep('ruby environment', :global_ruby_versions){
   requires [
     'rvm with multiple rubies',
     'required.rubies_installed'.with(global_ruby_versions),
+    'bundler.global_gem'.with(global_ruby_versions),
     'latest versions of popular gems'
   ]
 }
@@ -10,12 +11,19 @@ dep('required.rubies_installed', :ruby_versions) {
   rubies *ruby_versions.to_s.split(',').map(&:chomp)
 }
 
+# Install the latest version of bunder.
+# We typically keep this in sync with what Heroku is using on Cedar.
+dep("bundler.global_gem", :ruby_versions) {
+  rubies *ruby_versions.to_s.split(',').map(&:chomp)
+  versions "1.1.rc.7"
+}
+
 # This automatically installs the last 10 versions of popular gems
 # in order to speed up ruby dependency installation.
 
 # Wrap everything in a lambda so that we can lazily load it later
 # (This process currently doesn't work due to the way babs works)
-# We can probably just lazily eval the version lookup later.
+# NOTE: We can probably just lazily eval the version lookup later.
 #
 load_gems = lambda {
   require "rubygems"
@@ -41,7 +49,6 @@ load_gems = lambda {
   therubyracer
   rails
   rake
-  bundler
   timecop
   shoulda
   rdoc
@@ -94,7 +101,9 @@ load_gems = lambda {
 
     # Load gem versions from rubygems.org API
     gem_versions = JSON.parse(Net::HTTP.get("rubygems.org", "/api/v1/versions/#{gem_name}.json")).
+      # Skip prerelease gems
       select {|gem| gem['prerelease'] == false }.
+      # Restrict to MRI
       select {|gem| gem['platform'] == 'ruby' }.
       map {|gem| gem['number']}
 
