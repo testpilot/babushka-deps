@@ -69,6 +69,7 @@ dep('required.rubies_installed', :ruby_versions) {
 #   rubies *('1.8.7, 1.9.2, 1.9.3'.to_s.split(',').map(&:chomp))
 #   versions '0.3.3', '0.3.2', '0.2.4', '0.2.3', '0.2.2'
 # }
+require "rubygems"
 require 'json'
 require 'net/http'
 
