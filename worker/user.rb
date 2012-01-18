@@ -30,6 +30,6 @@ dep 'builder group' do
 end
 
 dep('ubuntu user exists') {
-  requires 'user exists'.with('ubuntu', '/home')
+  requires 'builders can sudo', 'user exists'.with('ubuntu', '/home')
 }
 
