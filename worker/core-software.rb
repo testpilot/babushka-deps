@@ -1,6 +1,5 @@
 packages = [
   'lsof',
-  'iptables',
   'jwhois',
   'whois',
   'curl',
@@ -28,6 +27,7 @@ packages_without_binary = [
   'libxml2-dev',
   'libxslt1-dev',
   'zlib1g-dev',
+  'iptables',
   'util-linux',
   'libossp-uuid-dev',
   'libcurl3',
