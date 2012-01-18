@@ -1,7 +1,7 @@
 dep('sphinx multiple versions installed') {
   requires 'sphinx installed'.with('2.0.1-beta'),
            'sphinx installed'.with('1.10-beta'),
-           'sphinx installed'.with('sphinx-0.9.9'),
+           'sphinx installed'.with('0.9.9'),
            'sphinx binaries linked'.with('2.0.1-beta')
 }
 
