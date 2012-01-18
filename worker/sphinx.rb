@@ -20,9 +20,7 @@ dep('sphinx installed', :version) {
     '/usr/local' / "sphinx-#{version}"
   end
 
-  met? {
-    met? { path.exists? }
-  }
+  met? { path.exists? }
 
   meet {
     # Download and extract, entering new directory
