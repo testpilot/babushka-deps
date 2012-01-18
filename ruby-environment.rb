@@ -52,7 +52,6 @@ load_gems = lambda {
   timecop
   shoulda
   rdoc
-  newgem
   rubigen
   metaclass
   json
