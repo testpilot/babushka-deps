@@ -18,6 +18,17 @@ dep('system user exists', :username) {
   }
 }
 
+dep 'builders can sudo' do
+  requires 'builder group'
+  met? { !sudo('cat /etc/sudoers').split("\n").grep(/^%builder/).empty? }
+  meet { append_to_file '%builder  ALL=(ALL) ALL', '/etc/sudoers', :sudo => true }
+end
+
+dep 'builder group' do
+  met? { grep(/^builder\:/, '/etc/group') }
+  meet { sudo 'groupadd builder' }
+end
+
 dep('ubuntu user exists') {
   requires 'user exists'.with('ubuntu', '/home')
 }
