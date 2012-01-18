@@ -56,7 +56,6 @@ load_gems = lambda {
   rubigen
   metaclass
   json
-  iron_mq
   rest-client
   multi_json
   faraday
