@@ -1,5 +1,5 @@
 dep 'user exists', :username, :home_dir_base do
-  home_dir_base.default(username['.'] ? '/srv/http' : '/home')
+  home_dir_base.default!(username['.'] ? '/srv/http' : '/home')
 
   on :linux do
     met? { grep(/^#{username}:/, '/etc/passwd') }
