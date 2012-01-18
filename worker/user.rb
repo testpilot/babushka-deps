@@ -8,6 +8,10 @@ dep 'user exists', :username, :home_dir_base do
       sudo "useradd -m -s /bin/bash -b #{home_dir_base} -G builder #{username}" and
       sudo "chmod 701 #{home_dir_base / username}"
     }
+
+    after {
+      unmeetable "You must login as ubuntu and run babushka again to continue setup" unless shell('whoami') == 'ubuntu'
+    }
   end
 end
 
