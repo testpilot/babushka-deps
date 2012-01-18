@@ -14,7 +14,8 @@ packages = [
   'elinks',
   'lynx',
   'htop',
-  'curl'
+  'curl',
+  'python-software-properties'
 ].each do |package|
   dep [package, 'managed'].join('.')
 end
