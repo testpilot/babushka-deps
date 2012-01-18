@@ -4,9 +4,9 @@ dep 'user exists', :username, :home_dir_base do
   on :linux do
     met? { grep(/^#{username}:/, '/etc/passwd') }
     meet {
-      sudo "mkdir -p #{var :home_dir_base}" and
-      sudo "useradd -m -s /bin/bash -b #{var :home_dir_base} -G admin #{username}" and
-      sudo "chmod 701 #{var(:home_dir_base) / username}"
+      sudo "mkdir -p #{home_dir_base}" and
+      sudo "useradd -m -s /bin/bash -b #{home_dir_base} -G admin #{username}" and
+      sudo "chmod 701 #{home_dir_base / username}"
     }
   end
 end
