@@ -10,7 +10,7 @@ dep 'user exists', :username, :home_dir_base do
     }
 
     after {
-      unmeetable "You must login as ubuntu and run babushka again to continue setup" unless shell('whoami') == 'ubuntu'
+      unmeetable! "You must login as ubuntu and run babushka again to continue setup" unless shell('whoami') == 'ubuntu'
     }
   end
 end
