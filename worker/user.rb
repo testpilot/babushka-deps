@@ -1,9 +1,6 @@
-dep 'user exists', :username do
-  setup {
-    define_var :home_dir_base, :default => L{
-      username.to_s['.'] ? '/srv/http' : '/home'
-    }
-  }
+dep 'user exists', :username, :home_dir_base do
+  home_dir_base.default(username['.'] ? '/srv/http' : '/home')
+
   on :linux do
     met? { grep(/^#{username}:/, '/etc/passwd') }
     meet {
@@ -20,3 +17,8 @@ dep('system user exists', :username) {
     sudo "useradd --system #{username}"
   }
 }
+
+dep('ubuntu user exists') {
+  requires 'user exists'.with('ubuntu')
+}
+
