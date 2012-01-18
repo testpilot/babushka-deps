@@ -19,6 +19,6 @@ dep('system user exists', :username) {
 }
 
 dep('ubuntu user exists') {
-  requires 'user exists'.with('ubuntu')
+  requires 'user exists'.with('ubuntu', '/home')
 }
 
