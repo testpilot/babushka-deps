@@ -97,7 +97,7 @@ dep('sysctl shared memory configured') {
 
   meet {
     render_erb "postgres/30-shared-memory.conf.erb", :to => "/etc/sysctl.d/30-postgresql-shm.conf", :sudo => true
-    sudo "sysctl -w kernel.shmmax=35512320"
+    sudo "sysctl -w kernel.shmmax=37085184"
     sudo "sysctl -w kernel.shmall=34680"
   }
 }
