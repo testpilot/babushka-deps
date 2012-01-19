@@ -3,7 +3,7 @@ dep('ruby environment', :global_ruby_versions){
     'rvm with multiple rubies',
     'required.rubies_installed'.with(global_ruby_versions),
     'bundler.global_gem'.with(global_ruby_versions),
-    'latest versions of popular gems'
+    'pg.gem_installed'
   ]
 }
 
