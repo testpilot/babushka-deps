@@ -70,7 +70,7 @@ dep('postgres configured', :version) {
   end
 
   def max_connections
-    255
+   200
   end
 
   met? {
