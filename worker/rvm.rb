@@ -168,7 +168,7 @@ meta :gem_installed do
       log "Failed to load gems for version lookup"
       log_shell("Installing json", "bash -l -c '#{rvm} use default; gem install json --no-ri --no-rdoc'", :spinner => true) && retry
     end
-    @versions = begin
+    @versions ||= begin
       puts "---> Fetching gem versions for #{gem_name}"
 
       # Load gem versions from rubygems.org API
