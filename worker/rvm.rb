@@ -156,7 +156,7 @@ meta :gem_installed do
   end
 
   def versions
-    @versions ||= load_gem_version_data(gem_name).reject {|version| skipped_versions.include?(version) }[0, depth]
+    load_gem_version_data(gem_name).reject {|version| skipped_versions.include?(version) }[0, depth]
   end
 
   def load_gem_version_data(gem_name)
@@ -168,16 +168,17 @@ meta :gem_installed do
       log "Failed to load gems for version lookup"
       log_shell("Installing json", "bash -l -c '#{rvm} use default; gem install json --no-ri --no-rdoc'", :spinner => true) && retry
     end
+    @versions = begin
+      puts "---> Fetching gem versions for #{gem_name}"
 
-    puts "---> Fetching gem versions for #{gem_name}"
-
-    # Load gem versions from rubygems.org API
-    gem_versions = JSON.parse(Net::HTTP.get("rubygems.org", "/api/v1/versions/#{gem_name}.json")).
-      # Skip prerelease gems
-      select {|gem| gem['prerelease'] == false }.
-      # Restrict to MRI
-      select {|gem| gem['platform'] == 'ruby' }.
-      map {|gem| gem['number'] }.sort
+      # Load gem versions from rubygems.org API
+      gem_versions = JSON.parse(Net::HTTP.get("rubygems.org", "/api/v1/versions/#{gem_name}.json")).
+        # Skip prerelease gems
+        select {|gem| gem['prerelease'] == false }.
+        # Restrict to MRI
+        select {|gem| gem['platform'] == 'ruby' }.
+        map {|gem| gem['number'] }.sort
+    end
   end
 
   def installed_versions
@@ -196,9 +197,14 @@ meta :gem_installed do
     }
 
     meet {
+      log_info "Missing #{gem_name} #{missing_versions.join(', ')}"
       missing_versions.each do |mutation|
         log_shell "Installing #{mutation[:name]} version #{mutation[:version]} for #{mutation[:ruby]}", "bash -l -c '#{rvm} use #{mutation[:ruby]}; gem install #{mutation[:name]} --no-ri --no-rdoc --version #{mutation[:version]}'", :spinner => true
       end
+    }
+
+    after {
+      @versions = nil
     }
   end
 end
