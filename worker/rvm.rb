@@ -129,8 +129,8 @@ meta :gem_installed do
   accepts_value_for :skipped_versions
   accepts_value_for :depth
 
-  depth.default! 2
-  rubies.default! '1.8.7', '1.9.2', '1.9.3'
+  # depth.default! 2
+  # rubies.default! '1.8.7', '1.9.2', '1.9.3'
 
   def gem_name
     name.split('.').first
@@ -159,7 +159,7 @@ meta :gem_installed do
   end
 
   def versions
-    load_gem_version_data(gem_name)
+    load_gem_version_data(gem_name)[0, depth]
   end
 
   def load_gem_version_data(gem_name)
@@ -169,8 +169,8 @@ meta :gem_installed do
       require "net/http"
     rescue LoadError
       log "Failed to load gems for version lookup"
-
     end
+
     puts "---> Fetching gem versions for #{gem_name}"
 
     # Load gem versions from rubygems.org API

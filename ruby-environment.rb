@@ -24,6 +24,7 @@ dep("bundler.global_gem", :ruby_versions) {
 # Wrap everything in a lambda so that we can lazily load it later
 # (This process currently doesn't work due to the way babs works)
 # NOTE: We can probably just lazily eval the version lookup later.
+
 #
 # load_gems = lambda {
 #   require "rubygems"
@@ -179,4 +180,7 @@ gems = %w(
   journey:0,1
 ).reverse
 
-dep('pg.gem_installed') {}
+dep('pg.gem_installed') {
+  rubies "1.8.7", "1.9.2", "1.9.3"
+  depth 2
+}
