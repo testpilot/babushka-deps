@@ -166,6 +166,7 @@ meta :gem_installed do
       require "net/http"
     rescue LoadError
       log "Failed to load gems for version lookup"
+      log_shell("Installing json", "bash -l -c '#{rvm} use default; gem install json --no-ri --no-rdoc'", :spinner => true) && retry
     end
 
     puts "---> Fetching gem versions for #{gem_name}"
