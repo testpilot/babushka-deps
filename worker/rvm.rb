@@ -169,7 +169,7 @@ meta :gem_installed do
       log_shell("Installing json", "bash -l -c '#{rvm} use default; gem install json --no-ri --no-rdoc'", :spinner => true) && retry
     end
     @versions ||= begin
-      puts "---> Fetching gem versions for #{gem_name}"
+      log "Fetching gem versions for #{gem_name}"
 
       # Load gem versions from rubygems.org API
       gem_versions = JSON.parse(Net::HTTP.get("rubygems.org", "/api/v1/versions/#{gem_name}.json")).
@@ -197,7 +197,7 @@ meta :gem_installed do
     }
 
     meet {
-      log_info "Missing #{gem_name} #{missing_versions.join(', ')}"
+      log "Missing #{gem_name} #{missing_versions.join(', ')}"
       missing_versions.each do |mutation|
         log_shell "Installing #{mutation[:name]} version #{mutation[:version]} for #{mutation[:ruby]}", "bash -l -c '#{rvm} use #{mutation[:ruby]}; gem install #{mutation[:name]} --no-ri --no-rdoc --version #{mutation[:version]}'", :spinner => true
       end
