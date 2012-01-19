@@ -129,9 +129,6 @@ meta :gem_installed do
   accepts_value_for :skipped_versions
   accepts_value_for :depth
 
-  # depth.default! 2
-  # rubies.default! '1.8.7', '1.9.2', '1.9.3'
-
   def gem_name
     name.split('.').first
   end
@@ -149,6 +146,7 @@ meta :gem_installed do
   end
 
   def all_mutations
+    rubies ||= ['1.8.7', '1.9.2', '1.9.3']
     mutations = []
     rubies.each { |ruby|
       versions.each { |version|
@@ -159,6 +157,7 @@ meta :gem_installed do
   end
 
   def versions
+    depth ||= 1
     load_gem_version_data(gem_name)[0, depth]
   end
 
@@ -204,6 +203,20 @@ meta :gem_installed do
     }
   end
 end
+
+# meta(:all_versions) {
+#   accepts_list_for :gems
+# 
+#   template {
+#     met? {
+# 
+#     }
+# 
+#     meet {
+# 
+#     }
+#   }
+# }
 
 dep('libgdbm-dev.managed') { provides [] }
 dep('libreadline5-dev.managed') { provides [] }

@@ -134,53 +134,53 @@ dep("bundler.global_gem", :ruby_versions) {
 #   requires *gem_deps
 # }
 # 
-
-gems = %w(
-  typhoeus
-  pg
-  mysql2
-  sqlite3:0,1
-  gherkin
-  nokogiri
-  therubyracer
-  rails
-  rake
-  timecop
-  shoulda
-  rdoc
-  rubigen
-  metaclass
-  json
-  rest-client
-  multi_json
-  faraday
-  faraday_middleware
-  airbrake
-  validates_timeliness
-  unicorn
-  uglifier
-  timeliness
-  thin
-  state_machine
-  simple_form
-  sass-rails
-  resque
-  sinatra
-  minitest
-  minitest-matchers
-  ruby-progressbar
-  mongrel
-  kaminari
-  jquery-rails:0,2
-  inherited_resources
-  responders
-  heroku
-  eventmachine:0,3
-  delorean
-  journey:0,1
-).reverse
-
+# 
+# gems = %w(
+#   typhoeus
+#   pg
+#   mysql2
+#   sqlite3:0,1
+#   gherkin
+#   nokogiri
+#   therubyracer
+#   rails
+#   rake
+#   timecop
+#   shoulda
+#   rdoc
+#   rubigen
+#   metaclass
+#   json
+#   rest-client
+#   multi_json
+#   faraday
+#   faraday_middleware
+#   airbrake
+#   validates_timeliness
+#   unicorn
+#   uglifier
+#   timeliness
+#   thin
+#   state_machine
+#   simple_form
+#   sass-rails
+#   resque
+#   sinatra
+#   minitest
+#   minitest-matchers
+#   ruby-progressbar
+#   mongrel
+#   kaminari
+#   jquery-rails:0,2
+#   inherited_resources
+#   responders
+#   heroku
+#   eventmachine:0,3
+#   delorean
+#   journey:0,1
+# ).reverse
+# 
 dep('pg.gem_installed') {
   rubies "1.8.7", "1.9.2", "1.9.3"
-  depth 1
 }
+
