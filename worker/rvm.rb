@@ -177,7 +177,7 @@ meta :gem_installed do
       select {|gem| gem['prerelease'] == false }.
       # Restrict to MRI
       select {|gem| gem['platform'] == 'ruby' }.
-      map {|gem| gem['number'].to_i }.sort
+      map {|gem| gem['number'] }.map(&:to_i).sort
   end
 
   def installed_versions
