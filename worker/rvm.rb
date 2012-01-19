@@ -126,7 +126,7 @@ end
 
 meta :gem_installed do
   accepts_list_for :rubies, ['1.8.7', '1.9.2', '1.9.3']
-  accepts_value_for :skipped_versions, []
+  accepts_list_for :skipped_versions, []
   accepts_value_for :depth, 1
 
   def gem_name
