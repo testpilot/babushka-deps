@@ -158,7 +158,7 @@ meta :gem_installed do
 
   def versions
     depth ||= 1
-    load_gem_version_data(gem_name)[0, depth]
+    @versions ||= load_gem_version_data(gem_name)[0, depth]
   end
 
   def load_gem_version_data(gem_name)
