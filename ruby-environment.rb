@@ -182,5 +182,5 @@ gems = %w(
 
 dep('pg.gem_installed') {
   rubies "1.8.7", "1.9.2", "1.9.3"
-  depth 2
+  depth 1
 }
