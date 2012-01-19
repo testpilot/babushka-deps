@@ -124,28 +124,81 @@ meta :global_gem do
   }
 end
 
-meta :gemcutter do
+meta :gem_installed do
   accepts_list_for :rubies
+  accepts_value_for :skipped_versions
+  accepts_value_for :depth
+
+  depth.default! 2
+  rubies.default! '1.8.7', '1.9.2', '1.9.3'
 
   def gem_name
     name.split('.').first
   end
 
-  def get_gem_data
-    require 'json'
-
+  def home
+    ENV['HOME']
   end
 
+  def user
+    shell('whoami').strip
+  end
 
-end
+  def rvm
+    "source #{home}/.rvm/scripts/rvm && rvm"
+  end
 
-meta :gem_installed do
-  accepts_value_for :version
-  accepts_value_for :ruby
+  def all_mutations
+    mutations = []
+    rubies.each { |ruby|
+      versions.each { |version|
+        mutations << {:ruby => ruby, :version => version, :name => gem_name}
+      }
+    }
+    mutations
+  end
 
-  template {
+  def versions
+    load_gem_version_data(gem_name)
+  end
 
-  }
+  def load_gem_version_data(gem_name)
+    require "rubygems"
+    require "json"
+    require "net/http"
+
+    puts "---> Fetching gem versions for #{gem_name}"
+
+    # Load gem versions from rubygems.org API
+    gem_versions = JSON.parse(Net::HTTP.get("rubygems.org", "/api/v1/versions/#{gem_name}.json")).
+      # Skip prerelease gems
+      select {|gem| gem['prerelease'] == false }.
+      # Restrict to MRI
+      select {|gem| gem['platform'] == 'ruby' }.
+      map {|gem| gem['number']}
+  end
+
+  def installed_versions
+    all_mutations.select do |mutation|
+      shell?("bash -l -c '#{rvm} use #{mutation[:ruby]}; find $GEM_HOME/gems -name \"#{mutation[:name]}-#{mutation[:version]}*\" | grep #{mutation[:name]}'")
+    end
+  end
+
+  def missing_versions
+    all_mutations - installed_versions
+  end
+
+  template do
+    met? {
+      missing_versions.empty?
+    }
+
+    meet {
+      missing_versions.each do |mutation|
+        log_shell "Installing #{mutation[:name]} version #{mutation[:version]} for #{mutation[:ruby]}", "bash -l -c '#{rvm} use #{mutation[:ruby]}; gem install #{mutation[:name]} --no-ri --no-rdoc --version #{mutation[:version]}'", :spinner => true
+      end
+    }
+  end
 end
 
 dep('libgdbm-dev.managed') { provides [] }
