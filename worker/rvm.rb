@@ -163,10 +163,14 @@ meta :gem_installed do
   end
 
   def load_gem_version_data(gem_name)
-    require "rubygems"
-    require "json"
-    require "net/http"
+    begin
+      require "rubygems"
+      require "json"
+      require "net/http"
+    rescue LoadError
+      log "Failed to load gems for version lookup"
 
+    end
     puts "---> Fetching gem versions for #{gem_name}"
 
     # Load gem versions from rubygems.org API
