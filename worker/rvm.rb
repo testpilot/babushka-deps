@@ -177,7 +177,7 @@ meta :gem_installed do
         select {|gem| gem['prerelease'] == false }.
         # Restrict to MRI
         select {|gem| gem['platform'] == 'ruby' }.
-        map {|gem| gem['number'] }.sort
+        map {|gem| gem['number'] }.sort {|a,b| b <=> a }
     end
   end
 
@@ -197,7 +197,7 @@ meta :gem_installed do
     }
 
     meet {
-      log "Missing #{gem_name} #{missing_versions.join(', ')}"
+      log "Missing #{gem_name} #{missing_versions.map{|g| g[:version] }.join(', ')}"
       missing_versions.each do |mutation|
         log_shell "Installing #{mutation[:name]} version #{mutation[:version]} for #{mutation[:ruby]}", "bash -l -c '#{rvm} use #{mutation[:ruby]}; gem install #{mutation[:name]} --no-ri --no-rdoc --version #{mutation[:version]}'", :spinner => true
       end
