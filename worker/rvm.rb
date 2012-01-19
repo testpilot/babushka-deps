@@ -156,7 +156,7 @@ meta :gem_installed do
   end
 
   def versions
-    @versions ||= load_gem_version_data(gem_name)[0, depth]
+    @versions ||= load_gem_version_data(gem_name).reject {|version| skipped_versions.map(&:to_i).include?(version) }[0, depth]
   end
 
   def load_gem_version_data(gem_name)
@@ -176,7 +176,7 @@ meta :gem_installed do
       select {|gem| gem['prerelease'] == false }.
       # Restrict to MRI
       select {|gem| gem['platform'] == 'ruby' }.
-      map {|gem| gem['number']}
+      map {|gem| gem['number'].to_i }.sort
   end
 
   def installed_versions
