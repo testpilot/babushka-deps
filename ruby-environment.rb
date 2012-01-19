@@ -191,4 +191,10 @@ dep('popular gems installed') {
 dep('pg.gem_installed') { rubies "1.8.7", "1.9.2", "1.9.3" }
 dep('rails.gem_installed') { rubies "1.8.7", "1.9.2", "1.9.3"; depth 20 }
 dep('mysql2.gem_installed') { depth 2 }
+dep('airbrake.gem_installed') { depth 2 }
+dep('heroku.gem_installed') { depth 2 }
+dep('uglifier.gem_installed') { depth 2 }
+dep('json.gem_installed') { depth 2 }
+dep('unicorn.gem_installed') { depth 2 }
+dep('typhoeus.gem_installed') { depth 2 }
 
