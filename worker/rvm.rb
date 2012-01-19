@@ -197,7 +197,9 @@ meta :gem_installed do
     }
 
     meet {
-      log "Missing #{gem_name} #{missing_versions.map{|g| g[:version] }.join(', ')}"
+      missing_versions.each do |mutation|
+        log "Missing #{mutation[:name]} #{mutation[:version]} on Ruby #{mutation[:ruby]}"
+      end
       missing_versions.each do |mutation|
         log_shell "Installing #{mutation[:name]} version #{mutation[:version]} for #{mutation[:ruby]}", "bash -l -c '#{rvm} use #{mutation[:ruby]}; gem install #{mutation[:name]} --no-ri --no-rdoc --version #{mutation[:version]}'", :spinner => true
       end
