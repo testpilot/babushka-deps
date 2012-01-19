@@ -185,12 +185,12 @@ dep('popular gems installed') {
     pg.gem_installed
     rails.gem_installed
     mysql2.gem_installed
-    airbrake
-    heroku
-    uglifier
-    json
-    unicorn
-    typhoeus
+    airbrake.gem_installed
+    heroku.gem_installed
+    uglifier.gem_installed
+    json.gem_installed
+    unicorn.gem_installed
+    typhoeus.gem_installed
   )
 }
 
