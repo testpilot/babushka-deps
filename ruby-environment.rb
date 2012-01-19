@@ -3,8 +3,7 @@ dep('ruby environment', :global_ruby_versions){
     'rvm with multiple rubies',
     'required.rubies_installed'.with(global_ruby_versions),
     'bundler.global_gem'.with(global_ruby_versions),
-    'pg.gem_installed',
-    'rails.gem_installed'
+    'popular gems installed'
   ]
 }
 
@@ -180,7 +179,16 @@ dep("bundler.global_gem", :ruby_versions) {
 #   delorean
 #   journey:0,1
 # ).reverse
-# 
+
+dep('popular gems installed') {
+  requires %w(
+    pg.gem_installed
+    rails.gem_installed
+    mysql2.gem_installed
+  )
+}
+
 dep('pg.gem_installed') { rubies "1.8.7", "1.9.2", "1.9.3" }
 dep('rails.gem_installed') { rubies "1.8.7", "1.9.2", "1.9.3"; depth 20 }
+dep('mysql2.gem_installed') { depth 2 }
 
