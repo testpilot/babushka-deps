@@ -180,7 +180,6 @@ dep("bundler.global_gem", :ruby_versions) {
 #   journey:0,1
 # ).reverse
 # 
-dep('pg.gem_installed') {
-  rubies "1.8.7", "1.9.2", "1.9.3"
-}
+dep('pg.gem_installed') { rubies "1.8.7", "1.9.2", "1.9.3" }
+dep('rails.gem_installed') { rubies "1.8.7", "1.9.2", "1.9.3"; depth 20 }
 
