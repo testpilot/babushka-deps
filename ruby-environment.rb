@@ -43,7 +43,7 @@ load_gems = lambda {
   typhoeus
   pg
   mysql2
-  sqlite3
+  sqlite3:0,1
   gherkin
   nokogiri
   therubyracer
