@@ -206,4 +206,5 @@ dep('json.gem_installed') { depth 2 }
 dep('unicorn.gem_installed') { depth 2 }
 dep('typhoeus.gem_installed') { depth 2 }
 dep('therubyracer.gem_installed') { depth 2 }
+dep('RedCloth.gem_installed') { depth 1 }
 

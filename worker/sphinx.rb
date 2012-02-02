@@ -42,7 +42,7 @@ dep('sphinx binaries linked', :version) {
   version.default!('2.0.1-beta')
 
   def path
-    '/usr/local' / "sphinx-#{version}"
+    "/usr/local/sphinx-#{version}"
   end
 
   def binaries
@@ -50,16 +50,20 @@ dep('sphinx binaries linked', :version) {
   end
 
   def binary_path(binary)
-    path / 'bin' / binary
+    "#{path}/bin/#{binary}"
+  end
+
+  def link_path(binary)
+    "/usr/local/bin/#{binary}"
   end
 
   met? {
-    binaries.all? { |binary| binary_path(binary).exists? }
+    binaries.all? { |binary| link_path(binary).p.exists? }
   }
 
   meet {
     binaries.each do |binary|
-      log_shell "Linking #{binary}", "sudo ln -s #{binary_path(binary)} /usr/local/bin/#{binary}"
+      log_shell "Linking #{binary}", "sudo ln -s #{binary_path(binary)} #{link_path(binary)}"
     end
   }
 }
