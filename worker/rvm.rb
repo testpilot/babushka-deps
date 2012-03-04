@@ -5,7 +5,7 @@ dep('rvm with multiple rubies'){
 dep('ruby dependencies'){
   requires [
     'libgdbm-dev.managed',
-    'libreadline5-dev.managed',
+    'libreadline-dev.managed',
     'libssl-dev.managed',
     'libxml2-dev.managed',
     'libxslt1-dev.managed',
@@ -226,7 +226,7 @@ end
 # }
 
 dep('libgdbm-dev.managed') { provides [] }
-dep('libreadline5-dev.managed') { provides [] }
+dep('libreadline-dev.managed') { provides [] }
 dep('libssl-dev.managed') { provides [] }
 dep('libxml2-dev.managed') { provides [] }
 dep('libxslt1-dev.managed') { provides [] }
