@@ -22,7 +22,7 @@ packages_without_binary = [
   'iputils-ping',
   'netcat-openbsd',
   'bind9-host',
-  'libreadline5-dev',
+  'libreadline-dev',
   'libssl-dev',
   'libxml2-dev',
   'libxslt1-dev',
