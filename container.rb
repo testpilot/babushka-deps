@@ -12,6 +12,7 @@ dep('lxc host configured') {
             'lxc dependencies installed',
             'zlib1g.managed',
             'libxslt-dev.managed',
+            'ncurses-dev.managed',
             'lvm2.managed',
             'lxc.managed',
             'cgroup mounted',
@@ -21,7 +22,7 @@ dep('lxc host configured') {
             'bundler.global_gem'.with('1.9.3')
 }
 
-packages = %w(openssl libreadline6 libreadline6-dev curl git-core zlib1g-dev libssl-dev libyaml-dev libsqlite3-0 libsqlite3-dev sqlite3 libxml2-dev autoconf libc6-dev  automake libtool bison subversion)
+packages = %w(openssl libreadline6 libreadline6-dev curl git-core zlib1g-dev libssl-dev libyaml-dev libsqlite3-0 libsqlite3-dev sqlite3 libxml2-dev autoconf libc6-dev  automake libtool bison)
 
 packages.each do |package|
   if package =~ /^lib|\-dev$/
@@ -31,7 +32,7 @@ packages.each do |package|
   end
 end
 
-dep('ncurses-dev') { provides [] }
+dep('ncurses-dev.managed') { provides [] }
 dep('zlib1g.managed') { provides [] }
 dep('lvm2.managed') { provides 'lvm' }
 dep('lxc.managed') { provides 'lxc-start' }
