@@ -75,7 +75,7 @@ dep('bridge interface up') {
     "/etc/network/interfaces".p.grep("br0")
   }
   meet {
-    shell "brctl add br0", :sudo => true
+    shell "brctl addbr br0", :sudo => true
     config = <<EOF
 auto br0
 iface br0 inet static
