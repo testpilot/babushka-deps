@@ -9,7 +9,7 @@ dep('test environment') {
     'yaml configured',
     'timetrap configured',
     'java installed',
-    'git.managed',
+    'git installed',
     'libqt4 installed',
     'libv8 installed',
     'nodejs multi installed',
