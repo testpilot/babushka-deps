@@ -1,6 +1,9 @@
 dep('git installed') {
-  requires 'benhoskings:git.src'
+  requires 'git-core.managed'
 }
+
+dep('git-core.managed'){}
+
 # dep 'git.managed' do
 #   before {
 #     shell "touch /etc/apt/sources.list.d/babushka.list", :sudo => true
