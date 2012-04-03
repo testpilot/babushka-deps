@@ -2,7 +2,9 @@ dep('git installed') {
   requires 'git-core.managed'
 }
 
-dep('git-core.managed'){}
+dep('git-core.managed'){
+  provides 'git'
+}
 
 # dep 'git.managed' do
 #   before {
