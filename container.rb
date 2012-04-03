@@ -37,7 +37,10 @@ dep('zlib1g.managed') { provides [] }
 dep('lvm2.managed') { provides 'lvm' }
 dep('lxc.managed') { provides 'lxc-start' }
 dep('bridge-utils.managed') { provides 'brctl' }
-dep('libxslt-dev.managed') { provides [] }
+dep('libxslt-dev.managed') { 
+  provides []
+  installs 'libxslt1-dev'
+}
 
 dep('lxc dependencies installed') {
   requires packages.map { |p| "#{p}.managed" }
