@@ -32,7 +32,10 @@ packages.each do |package|
   end
 end
 
-dep('ncurses-dev.managed') { provides [] }
+dep('ncurses-dev.managed') { 
+  provides []
+  installs ['libncurses5', 'libncurses5-dev']
+}
 dep('zlib1g.managed') { provides [] }
 dep('lvm2.managed') { provides 'lvm' }
 dep('lxc.managed') { provides 'lxc-start' }
