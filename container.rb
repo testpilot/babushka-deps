@@ -72,7 +72,8 @@ dep('allow ip forwarding') {
 dep('bridge interface up') {
   requires 'bridge-utils.managed', 'allow ip forwarding'
   met? {
-    "/etc/network/interfaces".p.grep("br0")
+    # "/etc/network/interfaces".p.grep("br0")
+    shell?("brctl showstp br0")
   }
   meet {
     shell "brctl addbr br0", :sudo => true
