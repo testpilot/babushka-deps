@@ -11,6 +11,7 @@ dep('lxc host configured') {
   requires  'build essential installed',
             'lxc dependencies installed',
             'zlib1g.managed',
+            'libxslt-dev.managed',
             'lvm2.managed',
             'lxc.managed',
             'cgroup mounted',
@@ -20,7 +21,7 @@ dep('lxc host configured') {
             'bundler.global_gem'.with('1.9.3')
 }
 
-packages = %w(openssl libreadline6 libreadline6-dev curl git-core zlib1g-dev libssl-dev libyaml-dev libsqlite3-0 libsqlite3-dev sqlite3 libxml2-dev libxslt-dev autoconf libc6-dev ncurses-dev automake libtool bison subversion)
+packages = %w(openssl libreadline6 libreadline6-dev curl git-core zlib1g-dev libssl-dev libyaml-dev libsqlite3-0 libsqlite3-dev sqlite3 libxml2-dev autoconf libc6-dev ncurses-dev automake libtool bison subversion)
 
 packages.each do |package|
   if package =~ /^lib|\-dev$/
@@ -34,6 +35,7 @@ dep('zlib1g.managed') { provides [] }
 dep('lvm2.managed') { provides 'lvm' }
 dep('lxc.managed') { provides 'lxc-start' }
 dep('bridge-utils.managed') { provides 'brctl' }
+dep('libxslt-dev.managed') { provides [] }
 
 dep('lxc dependencies installed') {
   requires packages.map { |p| "#{p}.managed" }
