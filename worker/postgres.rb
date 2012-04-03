@@ -2,6 +2,10 @@ dep('postgresql installed'){
   requires 'postgres.managed', 'postgres configured', 'sysctl shared memory configured', 'postgres test users exist'
 }
 
+# We may need to authorize this key, it seems to have been removed.
+# gpg --keyserver pgpkeys.mit.edu --recv-key  010908312D230C5F
+# gpg -a --export 010908312D230C5F | sudo apt-key add -
+
 dep 'postgres.managed', :version do
   version.default('9.1')
   # Assume the installed version if there is one
