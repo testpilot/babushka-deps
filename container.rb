@@ -64,7 +64,7 @@ dep('allow ip forwarding') {
   }
   meet {
     config = %(net.ipv4.ip_forward = 1)
-    render_erb(StringIO.new(config), :to => '/etc/sysctl.d/20-lxc.conf', :sudo => true)
+    render_erb(config, :to => '/etc/sysctl.d/20-lxc.conf', :sudo => true)
     shell "sysctl -w net.ipv4.ip_forward=1", :sudo => true
   }
 }
