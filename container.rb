@@ -203,13 +203,15 @@ dep('new lxc container cloned', :new_name, :base_image_name) {
   }
 }
 
-dep('container destroyed and cleaned up', :name) {
+dep('container destroyed and cleaned up', :container_name) {
   met? {
-    
+    shell?("lxc-ls | grep #{container_name}") &&
+    shell?("lvdisplay | grep #{container_name}")
   }
 
   meet {
-    shell "lxc-stop -n #{name}"
-    shell "lxc-destroy -n #{name}"
+    shell "lxc-stop -n #{container_name}", :sudo => true
+    shell "lxc-destroy -n #{container_name}", :sudo => true
+    shell "lvremove /dev/lxc/#{container_name}", :sudo => true
   }
 }
