@@ -104,12 +104,7 @@ dep('lxc default config') {
     shell? 'test -s /etc/lxc-basic.conf'
   }
   meet {
-    config = <<LOL
-lxc.network.type=veth
-lxc.network.link=br0
-lxc.network.flags=up
-LOL
-    '/etc/lxc-basic.conf'.p.write(config)
+    render_erb 'container/lxc/lxc-basic.conf.erb', :to => '/etc/lxc-basic.conf', :sudo => true
   }
 }
 
