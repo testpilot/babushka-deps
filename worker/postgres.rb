@@ -13,13 +13,14 @@ dep('postgres.managed', :version) {
   requires_when_unmet 'postgres ppa source'
 
   installs {
-    via :apt, ["postgresql-#{version}", "libpq-dev"]
+    via :apt, ["postgresql-#{owner.version}", "libpq-dev"]
   }
   provides "psql ~> #{version}.0"
 }
 
 dep('postgres ppa source') {
   met? { shell? "test -s /etc/apt/sources.list.d/pitti-postgresql-lucid.list" }
+
   meet { shell "apt-add-repository ppa:pitti/postgresql", :sudo => true }
 }
 
