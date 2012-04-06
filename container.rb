@@ -216,7 +216,7 @@ dep('container destroyed and cleaned up', :container_name) {
 }
 
 dep('logical volume removed', :container_name) {
-  met? { shell?("lvdisplay | grep #{container_name}", :sudo => true) }
+  met? { !shell?("lvdisplay | grep #{container_name}", :sudo => true) }
   meet { shell "lvremove /dev/lxc/#{container_name}", :sudo => true }
 }
 
