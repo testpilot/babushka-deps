@@ -122,7 +122,7 @@ dep('lucid base template installed') {
 dep('base template on lvm ready for snapshot') {
   requires ['base template rsynced to lvm']
   met? {
-    shell? "cat /var/lib/lxc/base-template/config | grep 'lxc.rootfs = /dev/lxc/base-template'"
+    shell? "cat /var/lib/lxc/base-template/config | grep 'lxc.rootfs = /dev/lxc/base-template'", :sudo => true
   }
   meet {
     shell "umount /mnt/base-template", :sudo => true
@@ -146,10 +146,10 @@ dep('base template rsynced to lvm') {
 dep('base-template volume mounted') {
   requires 'base-template volume'
   met? {
-    shell? "test -d /mnt/base-template/", :sudo => true
+    shell? "mount | grep base-template", :sudo => true
   }
   meet {
-    shell "mkdir /mnt/base-template", :sudo => true
+    shell "mkdir -p /mnt/base-template", :sudo => true
     shell "mount /dev/lxc/base-template /mnt/base-template", :sudo => true
   }
 }
