@@ -204,7 +204,7 @@ dep('new lxc container cloned', :new_name, :base_image_name) {
 }
 
 dep('container destroyed and cleaned up', :container_name) {
-  requires 'logical volume remove'.with(container_name)
+  requires 'logical volume removed'.with(container_name)
   met? {
     shell?("lxc-ls | grep #{container_name}")
   }
