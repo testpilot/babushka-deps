@@ -26,7 +26,7 @@ dep('lxc host configured') {
             'lxc default config'
 }
 
-packages = %w(openssl libreadline6 libreadline6-dev curl git-core zlib1g-dev tcpdump ntp libpcap-dev screen libssl-dev libyaml-dev libsqlite3-0 libsqlite3-dev sqlite3 libxml2-dev autoconf libc6-dev  automake libtool bison)
+packages = %w(openssl libreadline6 libreadline6-dev curl git-core zlib1g-dev tcpdump libpcap-dev screen libssl-dev libyaml-dev libsqlite3-0 libsqlite3-dev sqlite3 libxml2-dev autoconf libc6-dev  automake libtool bison)
 
 packages.each do |package|
   if package =~ /^lib|\-dev$/
