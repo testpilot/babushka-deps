@@ -134,7 +134,7 @@ dep('lucid base template installed') {
 dep('base template networking configured') {
   requires ['base-template volume mounted']
   met?{
-    shell? "cat /etc/network/interfaces | grep 'iface eth0 inet static'"
+    shell? "cat /mnt/base-template/etc/network/interfaces | grep 'iface eth0 inet static'"
   }
   meet {
     shell "rm -f /etc/networking/interfaces", :sudo => true
