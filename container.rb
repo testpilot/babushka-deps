@@ -139,7 +139,7 @@ dep('base template networking configured') {
   meet {
     shell "rm -f /etc/networking/interfaces", :sudo => true
     render_erb "container/lxc/interfaces.erb", :to => "/mnt/base-template/etc/network/interfaces", :sudo => true
-    shell "echo 'nameserver 8.8.8.8' > /mnt/base-template/etc/resolv.conf", :sudo => true
+    shell "cat /mnt/base-template/etc/resolvconf/resolv.conf.d/original > /mnt/base-template/etc/resolvconf/resolv.conf.d/base", :sudo => true
   }
 }
 
