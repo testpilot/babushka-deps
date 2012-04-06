@@ -120,7 +120,7 @@ dep('lucid base template installed') {
 }
 
 dep('base template on lvm ready for snapshot') {
-  requires 'base template rsynced to lvm'
+  requires ['base template rsynced to lvm']
   met? {
     shell? "cat /var/lib/lxc/base-template/config | grep 'lxc.rootfs = /dev/lxc/base-template'"
   }
