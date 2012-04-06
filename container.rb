@@ -136,7 +136,7 @@ dep('base template on lvm ready for snapshot') {
 dep('base template rsynced to lvm') {
   requires ['base-template volume mounted', 'lucid base template installed']
   met?{
-    shell? 'test -d /mnt/base-template/home/'
+    shell? 'test -d /mnt/base-template/home/', :sudo => true
   }
   meet {
     shell 'rsync -va /var/lib/lxc/base-template/rootfs/ /mnt/base-template/', :sudo => true
