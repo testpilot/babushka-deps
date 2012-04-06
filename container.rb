@@ -1,9 +1,6 @@
-dep('test container provisioned', :name, :bind_ip, :bind_port) {
-  bind_ip.default! 'localhost'
-  bind_port.default! '2222'
-  name.default! 'build-1'
-
-  requires 'base container cloned'
+dep('base-template setup') {
+  requires  'lxc host configured',
+            'base template networking configured'
 }
 
 # Installs everything to get a host running from scratch
@@ -23,7 +20,8 @@ dep('lxc host configured') {
             'rvm with multiple rubies',
             'required.rubies_installed'.with('1.9.3'),
             'bundler.global_gem'.with('1.9.3'),
-            'lucid base template installed'
+            'lucid base template installed',
+            'iptables masquerade'
 }
 
 packages = %w(openssl libreadline6 libreadline6-dev curl git-core zlib1g-dev tcpdump libpcap-dev screen libssl-dev libyaml-dev libsqlite3-0 libsqlite3-dev sqlite3 libxml2-dev autoconf libc6-dev  automake libtool bison)
@@ -74,13 +72,18 @@ dep('allow ip forwarding') {
 }
 
 dep('iptables masquerade') {
+  requires 'iptables-persistent.managed'
+
   met? {
-    shell? "iptables -L | grep MASQUERADE"
+    shell? "iptables -L | grep MASQUERADE", :sudo => true
   }
   meet {
-    shell "iptables -A POSTROUTING -o eth0 -j MASQUERADE", :sudo => true
+    shell "iptables -t nat -A POSTROUTING -o eth0 -j MASQUERADE", :sudo => true
+    shell "iptables-save", :sudo => true
   }
 }
+
+dep('iptables-persistent.managed') { provides ['iptables-save'] }
 
 dep('bridge interface up') {
   requires 'bridge-utils.managed', 'allow ip forwarding'
@@ -125,6 +128,18 @@ dep('lucid base template installed') {
   }
   meet {
     shell "lxc-create -n base-template -f /etc/lxc-basic.conf -t ubuntu -- -r lucid", :sudo => true
+  }
+}
+
+dep('base template networking configured') {
+  requires ['base-template volume mounted']
+  met?{
+    shell? "cat /etc/network/interfaces | grep 'iface eth0 inet static'"
+  }
+  meet {
+    shell "rm -f /etc/networking/interfaces", :sudo => true
+    render_erb "container/lxc/interfaces.erb", :to => "/mnt/base-template/etc/network/interfaces", :sudo => true
+    shell 'echo "nameserver 8.8.8.8" > /mnt/base-template/etc/resolv.conf', :sudo => true
   }
 }
 
@@ -191,7 +206,7 @@ dep('lxc volume group', :device) {
 }
 
 dep('new lxc container cloned', :new_name, :base_image_name) {
-  requires 'base template unmounted'
+  requires 'base template unmounted', 'container destroyed and cleaned up'.with(new_name)
 
   base_image_name.default! 'base-template'
 
