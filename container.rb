@@ -11,6 +11,8 @@ dep('lxc host configured') {
   requires  'build essential installed',
             'lxc dependencies installed',
             'benhoskings:web repo',
+            'xfsprogs.managed',
+            'python-software-properties.managed',
             'zlib1g.managed',
             'libxslt-dev.managed',
             'ncurses-dev.managed',
@@ -20,10 +22,11 @@ dep('lxc host configured') {
             'bridge interface up',
             'rvm with multiple rubies',
             'required.rubies_installed'.with('1.9.3'),
-            'bundler.global_gem'.with('1.9.3')
+            'bundler.global_gem'.with('1.9.3'),
+            'lxc default config'
 }
 
-packages = %w(openssl libreadline6 libreadline6-dev curl git-core zlib1g-dev libssl-dev libyaml-dev libsqlite3-0 libsqlite3-dev sqlite3 libxml2-dev autoconf libc6-dev  automake libtool bison)
+packages = %w(openssl libreadline6 libreadline6-dev curl git-core zlib1g-dev tcpdump ntp libpcap-dev screen libssl-dev libyaml-dev libsqlite3-0 libsqlite3-dev sqlite3 libxml2-dev autoconf libc6-dev  automake libtool bison)
 
 packages.each do |package|
   if package =~ /^lib|\-dev$/
@@ -33,19 +36,20 @@ packages.each do |package|
   end
 end
 
-dep('ncurses-dev.managed') { 
+dep('ncurses-dev.managed') {
   provides []
   installs ['libncurses5', 'libncurses5-dev']
 }
+dep('xfsprogs.managed') { provides 'mkfs.xfs' }
 dep('zlib1g.managed') { provides [] }
 dep('lvm2.managed') { provides 'lvm' }
 dep('lxc.managed') { provides 'lxc-start' }
 dep('bridge-utils.managed') { provides 'brctl' }
-dep('libxslt-dev.managed') { 
+dep('libxslt-dev.managed') {
   provides []
   installs 'libxslt1-dev'
 }
-
+dep('python-software-properties.managed') { provides [] }
 dep('lxc dependencies installed') {
   requires packages.map { |p| "#{p}.managed" }
 }
@@ -83,7 +87,8 @@ iface br0 inet static
 address 192.168.50.1
 netmask 255.255.255.0
 EOF
-    '/etc/network/interfaces'.p.append(config, :sudo => true)
+    '/etc/network/interfaces'.p.append(config)
+    shell "ifup br0", :sudo => true
   }
 }
 
@@ -91,6 +96,20 @@ dep('lxc volume group') {
   met?{ shell? "test -s /dev/lxc/" }
   meet {
     shell "vgcreate lxc /dev/xvda2", :sudo => true
+  }
+}
+
+dep('lxc default config') {
+  met? {
+    shell? 'test -s /etc/lxc-basic.conf'
+  }
+  meet {
+    config = <<LOL
+lxc.network.type=veth
+lxc.network.link=br0
+lxc.network.flags=up
+LOL
+    '/etc/lxc-basic.conf'.p.write(config)
   }
 }
 
