@@ -3,7 +3,7 @@ dep('git installed') {
 }
 
 dep('git-core.managed'){
-  installs 'git'
+  installs 'git-core'
   provides 'git >= 1.7.0.4'
 }
 
