@@ -75,7 +75,7 @@ dep('iptables masquerade') {
   requires 'iptables-persistent.managed'
 
   met? {
-    shell? "iptables -L | grep MASQUERADE", :sudo => true
+    shell? "iptables -L -t nat | grep MASQUERADE", :sudo => true
   }
   meet {
     shell "iptables -t nat -A POSTROUTING -o eth0 -j MASQUERADE", :sudo => true
