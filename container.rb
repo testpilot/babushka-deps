@@ -185,7 +185,7 @@ dep('new lxc container cloned', :new_name, :base_image_name) {
   end
 
   def root_fs
-    lxc_dir / var(:new_name) / 'rootfs'
+    lxc_dir / new_name / 'rootfs'
   end
 
   met? {
@@ -193,7 +193,7 @@ dep('new lxc container cloned', :new_name, :base_image_name) {
   }
 
   meet {
-    shell "/usr/bin/lxc-clone -o #{base_image_name} -s -n #{new_name}"
+    shell "/usr/bin/lxc-clone -o #{base_image_name} -s -n #{new_name}", :sudo => true
   }
 }
 
