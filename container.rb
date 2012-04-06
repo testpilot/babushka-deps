@@ -134,7 +134,7 @@ dep('base template on lvm ready for snapshot') {
 }
 
 dep('base template rsynced to lvm') {
-  requires 'base-template volume mounted', 'lucid base template installed'
+  requires ['base-template volume mounted', 'lucid base template installed']
   met?{
     shell? 'test -d /mnt/base-template/home/'
   }
