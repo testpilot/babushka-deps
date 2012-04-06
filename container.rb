@@ -177,7 +177,7 @@ dep('lxc volume group', :device) {
   }
 }
 
-dep('new lxc container cloned', :name, :base_image_name) {
+dep('new lxc container cloned', :new_name, :base_image_name) {
   base_image_name.default! 'base-template'
 
   def lxc_dir
@@ -185,7 +185,7 @@ dep('new lxc container cloned', :name, :base_image_name) {
   end
 
   def root_fs
-    lxc_dir / var(:name) / 'rootfs'
+    lxc_dir / var(:new_name) / 'rootfs'
   end
 
   met? {
@@ -193,7 +193,17 @@ dep('new lxc container cloned', :name, :base_image_name) {
   }
 
   meet {
-    shell "/usr/bin/lxc-clone -o #{base_image_name} -s -n #{name}"
+    shell "/usr/bin/lxc-clone -o #{base_image_name} -s -n #{new_name}"
   }
 }
 
+dep('container destroyed and cleaned up', :name) {
+  met? {
+    
+  }
+
+  meet {
+    shell "lxc-stop -n #{name}"
+    shell "lxc-destroy -n #{name}"
+  }
+}
