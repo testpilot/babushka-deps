@@ -133,7 +133,7 @@ dep('base template on lvm ready for snapshot') {
 }
 
 dep('base template unmounted') {
-  met? { shell? "mount | grep base-template" }
+  met? { !shell?("mount | grep base-template") }
   meet { shell "umount /mnt/base-template", :sudo => true }
 }
 
