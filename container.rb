@@ -23,7 +23,7 @@ dep('lxc host configured') {
             'rvm with multiple rubies',
             'required.rubies_installed'.with('1.9.3'),
             'bundler.global_gem'.with('1.9.3'),
-            'lxc default config'
+            'lucid base template installed'
 }
 
 packages = %w(openssl libreadline6 libreadline6-dev curl git-core zlib1g-dev tcpdump libpcap-dev screen libssl-dev libyaml-dev libsqlite3-0 libsqlite3-dev sqlite3 libxml2-dev autoconf libc6-dev  automake libtool bison)
@@ -105,6 +105,59 @@ dep('lxc default config') {
   }
   meet {
     render_erb 'container/lxc/lxc-basic.conf.erb', :to => '/etc/lxc-basic.conf', :sudo => true
+  }
+}
+
+dep('lucid base template installed') {
+  requires ['lxc default config']
+
+  met? {
+    shell? "test -d /var/lib/lxc/base-template/rootfs"
+  }
+  meet {
+    shell "lxc-create -n base-template -f /etc/lxc-basic.conf -t ubuntu -- -r lucid", :sudo => true
+  }
+}
+
+dep('base template rsynced to lvm') {
+  requires 'base-template volume mounted'
+  met?{}
+  meet {
+    shell 'rsync -va /var/lib/lxc/base-template/rootfs/ /mnt/base-template/', :sudo => true
+  }
+}
+
+dep('base-template volume mounted') {
+  requires 'base-template volume'
+  met? {
+    shell? "test -d /mnt/base-template/", :sudo => true
+  }
+  meet {
+    shell "mkdir /mnt/base-template", :sudo => true
+    shell "mount /dev/lxc/base-template /mnt/base-template", :sudo => true
+  }
+}
+
+dep('base-template volume'){
+  requires 'lxc volume group'
+
+  met? {
+    shell? "test -d /dev/lxc/base-template"
+  }
+  meet{
+    shell 'lvcreate -L 5G -n base-template lxc', :sudo => true
+    shell 'mkfs.xfs /dev/lxc/base-template', :sudo => true
+  }
+}
+
+dep('lxc volume group', :device) {
+  device.default! 'xvda2'
+
+  met? {
+    shell? "vgdisplay | grep lxc", :sudo => true
+  }
+  meet {
+    shell "vgcreate lxc #{device}", :sudo => true
   }
 }
 
