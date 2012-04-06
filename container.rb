@@ -177,8 +177,8 @@ dep('lxc volume group', :device) {
   }
 }
 
-dep('base container cloned', :name, :base_image_name) {
-  base_image_name.default! 'baseimage'
+dep('new lxc container cloned', :name, :base_image_name) {
+  base_image_name.default! 'base-template'
 
   def lxc_dir
     '/var/lib/lxc'.p
@@ -189,7 +189,7 @@ dep('base container cloned', :name, :base_image_name) {
   end
 
   met? {
-    shell? "lxc-ls | grep '#{var(:name)}'"
+    shell? "test -d #{root_fs}"
   }
 
   meet {
