@@ -10,6 +10,7 @@ dep('test container provisioned', :name, :bind_ip, :bind_port) {
 dep('lxc host configured') {
   requires  'build essential installed',
             'lxc dependencies installed',
+            'benhoskings:web repo',
             'zlib1g.managed',
             'libxslt-dev.managed',
             'ncurses-dev.managed',
@@ -82,7 +83,14 @@ iface br0 inet static
 address 192.168.50.1
 netmask 255.255.255.0
 EOF
-    append_to_file(config, '/etc/network/interfaces', :sudo => true)
+    '/etc/network/interfaces'.p.append(config, :sudo => true)
+  }
+}
+
+dep('lxc volume group') {
+  met?{ shell? "test -s /dev/lxc/" }
+  meet {
+    shell "vgcreate lxc /dev/xvda2", :sudo => true
   }
 }
 
@@ -105,6 +113,4 @@ dep('base container cloned', :name, :base_image_name) {
     shell "/usr/bin/lxc-clone -o #{base_image_name} -s -n #{name}"
   }
 }
-
-
 
