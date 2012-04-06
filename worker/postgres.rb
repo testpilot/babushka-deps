@@ -6,20 +6,37 @@ dep('postgresql installed'){
 # gpg --keyserver pgpkeys.mit.edu --recv-key  010908312D230C5F
 # gpg -a --export 010908312D230C5F | sudo apt-key add -
 
-dep 'postgres.managed', :version do
-  version.default('9.1')
-  # Assume the installed version if there is one
-  version.default!(shell('psql --version').val_for('psql (PostgreSQL)')[/^\d\.\d/]) if which('psql')
+dep('postgres.managed', :version) {
   requires 'set.locale'
-  requires_when_unmet {
-    on :apt, 'ppa'.with('ppa:pitti/postgresql')
-  }
+  version.default!('9.1')
+
+  requires_when_unmet 'postgres ppa source'
+
   installs {
-    via :apt, ["postgresql-#{owner.version}", "libpq-dev"]
-    via :brew, "postgresql"
+    via :apt, ["postgresql-#{version}", "libpq-dev"]
   }
   provides "psql ~> #{version}.0"
-end
+}
+
+dep('postgres ppa source') {
+  met? { shell? "test -s /etc/apt/sources.list.d/pitti-postgresql-lucid.list" }
+  meet { shell "apt-add-repository ppa:pitti/postgresql", :sudo => true }
+}
+
+# dep 'postgres.managed', :version do
+#   version.default('9.1')
+#   # Assume the installed version if there is one
+#   version.default!(shell('psql --version').val_for('psql (PostgreSQL)')[/^\d\.\d/]) if which('psql')
+#   requires 'set.locale'
+#   requires_when_unmet {
+#     on :apt, 'ppa'.with('ppa:pitti/postgresql')
+#   }
+#   installs {
+#     via :apt, ["postgresql-#{owner.version}", "libpq-dev"]
+#     via :brew, "postgresql"
+#   }
+#   provides "psql ~> #{version}.0"
+# end
 
 dep 'postgres access' do
   requires 'postgres.managed', 'user exists'
