@@ -73,6 +73,15 @@ dep('allow ip forwarding') {
   }
 }
 
+dep('iptables masquerade') {
+  met? {
+    shell? "iptables -L | grep MASQUERADE"
+  }
+  meet {
+    shell "iptables -A POSTROUTING -o eth0 -j MASQUERADE", :sudo => true
+  }
+}
+
 dep('bridge interface up') {
   requires 'bridge-utils.managed', 'allow ip forwarding'
   met? {
@@ -217,6 +226,6 @@ dep('container destroyed and cleaned up', :container_name) {
 
 dep('logical volume removed', :container_name) {
   met? { !shell?("lvdisplay | grep #{container_name}", :sudo => true) }
-  meet { shell "lvremove /dev/lxc/#{container_name}", :sudo => true }
+  meet { shell "lvremove -f /dev/lxc/#{container_name}", :sudo => true }
 }
 
