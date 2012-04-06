@@ -120,17 +120,21 @@ dep('lucid base template installed') {
 }
 
 dep('base template on lvm ready for snapshot') {
-  requires ['base template rsynced to lvm']
+  requires ['base template rsynced to lvm', 'base template unmounted']
   met? {
     shell? "cat /var/lib/lxc/base-template/config | grep 'lxc.rootfs = /dev/lxc/base-template'", :sudo => true
   }
   meet {
-    shell "umount /mnt/base-template", :sudo => true
     shell "rm -rf /var/lib/lxc/base-template/rootfs", :sudo => true
     shell "mkdir /var/lib/lxc/base-template/rootfs", :sudo => true
     shell "sed -i '/lxc.rootfs/d' /var/lib/lxc/base-template/config", :sudo => true
     shell "echo 'lxc.rootfs = /dev/lxc/base-template' >> /var/lib/lxc/base-template/config", :sudo => true
   }
+}
+
+dep('base template unmounted') {
+  met? { shell? "mount | grep base-template" }
+  meet { shell "umount /mnt/base-template", :sudo => true }
 }
 
 dep('base template rsynced to lvm') {
@@ -178,6 +182,8 @@ dep('lxc volume group', :device) {
 }
 
 dep('new lxc container cloned', :new_name, :base_image_name) {
+  requires 'base template unmounted'
+
   base_image_name.default! 'base-template'
 
   def lxc_dir
