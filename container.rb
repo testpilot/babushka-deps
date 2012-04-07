@@ -7,7 +7,7 @@ dep('base-template setup') {
 dep('lxc host configured') {
   requires  'build essential installed',
             'lxc dependencies installed',
-            'benhoskings:web repo',
+            'deployable repo',
             'xfsprogs.managed',
             'python-software-properties.managed',
             'zlib1g.managed',
@@ -23,6 +23,19 @@ dep('lxc host configured') {
             'lucid base template installed',
             'iptables masquerade'
 }
+
+dep 'deployable repo', :path do
+  requires [
+    'benhoskings:web repo exists'.with(path),
+    'benhoskings:web repo hooks'.with(path),
+    'benhoskings:web repo always receives'.with(path)
+  ]
+  met? {
+    vanity_path = path.p.sub(/^#{Etc.getpwuid(Process.euid).dir.chomp('/')}/, '~')
+    log "All done. The repo's URI: " + "#{shell('whoami')}@#{shell('hostname -f')}:#{vanity_path}".colorize('underline')
+    true
+  }
+end
 
 packages = %w(openssl libreadline6 libreadline6-dev curl git-core zlib1g-dev tcpdump libpcap-dev screen libssl-dev libyaml-dev libsqlite3-0 libsqlite3-dev sqlite3 libxml2-dev autoconf libc6-dev  automake libtool bison)
 
