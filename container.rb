@@ -141,7 +141,7 @@ dep('lucid base template installed') {
 }
 
 dep('base template networking configured') {
-  requires ['base-template volume mounted']
+  requires ['base template rsynced to lvm']
   met?{
     shell? "cat /mnt/base-template/etc/network/interfaces | grep 'iface eth0 inet static'"
   }
