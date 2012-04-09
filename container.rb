@@ -195,7 +195,7 @@ dep('base-template volume'){
   requires 'lxc volume group'
 
   met? {
-    shell? "lvdisplay base-template", :sudo => true
+    shell? "lvdisplay /dev/lxc/base-template", :sudo => true
   }
   meet{
     shell 'lvcreate -L 5G -n base-template lxc', :sudo => true
