@@ -31,7 +31,7 @@ dep('test environment') {
 
     # Language environments
     # 'ruby environment'.with('1.8.7, 1.9.2, 1.9.3, ruby-head, ree, jruby, rbx, rbx-2.0.0pre'),
-    'ruby environment'.with('1.8.7, 1.9.2, 1.9.3, ruby-head, ree, jruby'),
+    'ruby environment'.with('1.8.7, 1.9.2, 1.9.3, ruby-head, jruby'),
 
     'ensure workspace is writeable and clean'
   ]
