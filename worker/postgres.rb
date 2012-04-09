@@ -21,7 +21,10 @@ dep('postgres.managed', :version) {
 dep('postgres ppa source') {
   met? { shell? "test -s /etc/apt/sources.list.d/pitti-postgresql-lucid.list" }
 
-  meet { shell "apt-add-repository ppa:pitti/postgresql", :sudo => true }
+  meet {
+    shell "apt-add-repository ppa:pitti/postgresql", :sudo => true
+    shell "apt-get update", :sudo => true
+  }
 }
 
 # dep 'postgres.managed', :version do
