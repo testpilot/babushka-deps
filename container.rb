@@ -102,8 +102,8 @@ dep('iptables-persistent.managed') { provides ['iptables-save'] }
 dep('bridge interface up') {
   requires 'bridge-utils.managed', 'allow ip forwarding'
   met? {
-    # "/etc/network/interfaces".p.grep("br0")
-    shell?("brctl showstp br0", :sudo => true)
+    shell?("brctl showstp br0", :sudo => true) &&
+    shell?("grep 'iface br0 inet static' /etc/network/interfaces")
   }
   meet {
     shell "brctl addbr br0", :sudo => true
