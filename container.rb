@@ -11,7 +11,7 @@ dep('lxc host configured') {
             'xfsprogs.managed',
             'python-software-properties.managed',
             'zlib1g.managed',
-            'git-core.managed',
+            'git.managed',
             'libxslt-dev.managed',
             'ncurses-dev.managed',
             'lvm2.managed',
