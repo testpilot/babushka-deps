@@ -141,7 +141,7 @@ dep('lucid base template installed') {
 }
 
 dep('base template networking configured') {
-  requires ['base template rsynced to lvm']
+  requires ['base template configured to boot from lvm']
   met?{
     shell? "cat /mnt/base-template/etc/network/interfaces | grep 'iface eth0 inet static'"
   }
@@ -153,7 +153,7 @@ dep('base template networking configured') {
 }
 
 dep('base template on lvm ready for snapshot') {
-  requires ['base template rsynced to lvm', 'base template unmounted']
+  requires ['base template configured to boot from lvm', 'base template unmounted']
   met? {
     shell? "cat /var/lib/lxc/base-template/config | grep 'lxc.rootfs = /dev/lxc/base-template'", :sudo => true
   }
@@ -177,6 +177,19 @@ dep('base template rsynced to lvm') {
   }
   meet {
     shell 'rsync -va /var/lib/lxc/base-template/rootfs/ /mnt/base-template/', :sudo => true
+  }
+}
+
+dep('base template configured to boot from lvm'){
+  requires 'base template rsynced to lvm'
+  met? {
+    shell? "grep '/dev/lxc/' /var/lib/lxc/base-template/config"
+  }
+  meet {
+    shell "rm -rf /var/lib/lxc/base-template/rootfs/", :sudo => true
+    shell "mkdir -p /var/lib/lxc/base-template/rootfs/", :sudo => true
+    shell "sed -i '/lxc.rootfs/d' /var/lib/lxc/base-template/config", :sudo => true
+    shell 'echo "lxc.rootfs = /dev/lxc/base-template" >> /var/lib/lxc/base-template/config', :sudo => true
   }
 }
 
