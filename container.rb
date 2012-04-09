@@ -103,10 +103,11 @@ dep('bridge interface up') {
   requires 'bridge-utils.managed', 'allow ip forwarding'
   met? {
     # "/etc/network/interfaces".p.grep("br0")
-    shell?("brctl showstp br0")
+    shell?("brctl showstp br0", :sudo => true)
   }
   meet {
     shell "brctl addbr br0", :sudo => true
+    shell "sudo chown ubuntu:ubuntu /etc/network/interfaces"
     config = <<EOF
 auto br0
 iface br0 inet static
@@ -114,6 +115,7 @@ address 192.168.50.1
 netmask 255.255.255.0
 EOF
     '/etc/network/interfaces'.p.append(config)
+    shell "sudo chown root:root /etc/network/interfaces"
     shell "ifup br0", :sudo => true
   }
 }

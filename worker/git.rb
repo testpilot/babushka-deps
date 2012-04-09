@@ -10,7 +10,7 @@ dep('git installed') {
 dep 'git.managed' do
   before {
     shell "touch /etc/apt/sources.list.d/babushka.list", :sudo => true
-    shell "chown ubuntu:ubuntu /etc/apt/sources.list.d/babushka.list", :sudo => true
+    shell "sudo chown ubuntu:ubuntu  /etc/apt/sources.list.d/babushka.list"
   }
   requires 'ppa'.with('ppa:git-core/ppa')
   installs 'git'
