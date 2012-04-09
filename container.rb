@@ -38,7 +38,7 @@ dep 'deployable repo', :path do
   }
 end
 
-packages = %w(openssl libreadline6 libreadline6-dev curl zlib1g-dev tcpdump libpcap-dev screen libssl-dev libyaml-dev libsqlite3-0 libsqlite3-dev sqlite3 libxml2-dev autoconf libc6-dev  automake libtool bison)
+packages = %w(openssl man libreadline6 libreadline6-dev curl zlib1g-dev tcpdump libpcap-dev screen libssl-dev libyaml-dev libsqlite3-0 libsqlite3-dev sqlite3 libxml2-dev autoconf libc6-dev  automake libtool bison)
 
 packages.each do |package|
   if package =~ /^lib|\-dev$/
@@ -133,7 +133,7 @@ dep('lucid base template installed') {
   requires ['lxc default config']
 
   met? {
-    shell? "test -d /var/lib/lxc/base-template/rootfs"
+    shell?("test -d /var/lib/lxc/base-template/rootfs") || shell?("test -b /dev/lxc/base-template -o -h /dev/lxc/base-template")
   }
   meet {
     shell "lxc-create -n base-template -f /etc/lxc-basic.conf -t ubuntu -- -r lucid", :sudo => true
