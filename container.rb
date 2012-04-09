@@ -214,7 +214,7 @@ dep('lxc volume group', :device) {
   device.default! 'xvda2'
 
   met? {
-    shell? "vgdisplay | grep lxc", :sudo => true
+    shell? "sudo vgdisplay lxc"
   }
   meet {
     shell "vgcreate lxc #{device}", :sudo => true
