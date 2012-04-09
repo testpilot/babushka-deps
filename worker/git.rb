@@ -1,5 +1,5 @@
 dep('git installed') {
-  requires 'git-core.managed'
+  requires 'git.managed'
 }
 
 # dep('git-core.managed'){
