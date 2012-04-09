@@ -120,13 +120,6 @@ EOF
   }
 }
 
-dep('lxc volume group') {
-  met?{ shell? "test -s /dev/lxc/" }
-  meet {
-    shell "vgcreate lxc /dev/xvda2", :sudo => true
-  }
-}
-
 dep('lxc default config') {
   met? {
     shell? 'test -s /etc/lxc-basic.conf'
@@ -202,7 +195,7 @@ dep('base-template volume'){
   requires 'lxc volume group'
 
   met? {
-    shell? "lvdisplay | grep base-template", :sudo => true
+    shell? "lvdisplay base-template", :sudo => true
   }
   meet{
     shell 'lvcreate -L 5G -n base-template lxc', :sudo => true
