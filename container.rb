@@ -16,7 +16,7 @@ dep('lxc host configured') {
             'ncurses-dev.managed',
             'lvm2.managed',
             'lxc.managed',
-            'cgroup mounted',
+            # 'cgroup mounted',
             'bridge interface up',
             'rvm with multiple rubies',
             'required.rubies_installed'.with('1.9.3'),
