@@ -7,11 +7,11 @@ dep('base-template setup') {
 dep('lxc host configured') {
   requires  'build essential installed',
             'lxc dependencies installed',
-            'deployable repo',
             'xfsprogs.managed',
             'python-software-properties.managed',
             'zlib1g.managed',
             'git.managed',
+            'man.managed',
             'libxslt-dev.managed',
             'ncurses-dev.managed',
             'lvm2.managed',
@@ -22,7 +22,8 @@ dep('lxc host configured') {
             'required.rubies_installed'.with('1.9.3'),
             'bundler.global_gem'.with('1.9.3'),
             'lucid base template installed',
-            'iptables masquerade'
+            'iptables masquerade',
+            'deployable repo'
 }
 
 dep 'deployable repo', :path do
@@ -38,7 +39,7 @@ dep 'deployable repo', :path do
   }
 end
 
-packages = %w(openssl man libreadline6 libreadline6-dev curl zlib1g-dev tcpdump libpcap-dev screen libssl-dev libyaml-dev libsqlite3-0 libsqlite3-dev sqlite3 libxml2-dev autoconf libc6-dev  automake libtool bison)
+packages = %w(openssl libreadline6 libreadline6-dev curl zlib1g-dev tcpdump libpcap-dev screen libssl-dev libyaml-dev libsqlite3-0 libsqlite3-dev sqlite3 libxml2-dev autoconf libc6-dev  automake libtool bison)
 
 packages.each do |package|
   if package =~ /^lib|\-dev$/
@@ -64,6 +65,9 @@ dep('libxslt-dev.managed') {
 dep('python-software-properties.managed') { provides [] }
 dep('lxc dependencies installed') {
   requires packages.map { |p| "#{p}.managed" }
+}
+dep('man.managed') {
+  installs 'manpages'
 }
 
 dep('cgroup mounted') {
