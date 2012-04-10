@@ -7,7 +7,7 @@ dep('base-template setup') {
 dep('lxc host configured') {
   requires  'build essential installed',
             'lxc dependencies installed',
-            'xfsprogs.managed',
+            # 'xfsprogs.managed',
             'python-software-properties.managed',
             'zlib1g.managed',
             'git.managed',
@@ -216,7 +216,7 @@ dep('base-template volume'){
   }
   meet{
     shell 'lvcreate -L 5G -n base-template lxc', :sudo => true
-    shell 'mkfs.xfs /dev/lxc/base-template', :sudo => true
+    shell 'mkfs.ext4 /dev/lxc/base-template', :sudo => true
   }
 }
 
