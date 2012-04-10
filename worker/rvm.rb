@@ -51,8 +51,7 @@ meta :rubies_installed do
   }
 end
 
-dep('rvm installed', :version) {
-  version.default! "1.9.2"
+dep('rvm installed') {
 
   def user
     shell('whoami').strip
