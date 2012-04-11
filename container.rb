@@ -69,6 +69,7 @@ dep('lxc dependencies installed') {
 }
 dep('man.managed') {
   installs 'manpages'
+  provides 'man'
 }
 
 dep('cgroup mounted') {
@@ -228,7 +229,7 @@ dep('lxc volume group', :device) {
     shell? "sudo vgdisplay lxc"
   }
   meet {
-    shell "vgcreate lxc #{device}", :sudo => true
+    shell "vgcreate lxc /dev/#{device}", :sudo => true
   }
 }
 
