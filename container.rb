@@ -6,6 +6,7 @@ dep('base-template setup') {
 # Installs everything to get a host running from scratch
 dep('lxc host configured') {
   requires  'build essential installed',
+            'ubuntu user exists',
             'lxc dependencies installed',
             # 'xfsprogs.managed',
             'python-software-properties.managed',
