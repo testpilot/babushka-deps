@@ -139,7 +139,7 @@ dep('lucid base template installed') {
   requires ['lxc default config']
 
   met? {
-    shell?("test -d /var/lib/lxc/base-template/rootfs") || shell?("test -b /dev/lxc/base-template -o -h /dev/lxc/base-template")
+    shell?("test -s /var/lib/lxc/base-template/rootfs") || shell?("test -b /dev/lxc/base-template -o -h /dev/lxc/base-template")
   }
   meet {
     shell "lxc-create -n base-template -f /etc/lxc-basic.conf -t ubuntu -- -r lucid", :sudo => true
