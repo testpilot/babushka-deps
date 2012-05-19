@@ -18,9 +18,9 @@ dep("phantom.js installed") {
     # git checkout 1.5
     # ./build.sh
 
-    log_shell "Cloning Phantom.js", "git clone git://github.com/ariya/phantomjs.git /tmp/phantomjs/"
-    shell "cd /tmp/phantomjs && git checkout 1.5" and
-    shell "cd /tmp/phantomjs/ && ./build.sh"
+    log_shell "Cloning Phantom.js", "git clone git://github.com/ariya/phantomjs.git /tmp/phantomjs/" and
+    log_shell "Checkout Version 1.5", "cd /tmp/phantomjs && git checkout 1.5" and
+    log_shell "Building Phantom.js", "cd /tmp/phantomjs/ && ./build.sh"
   }
 }
 
