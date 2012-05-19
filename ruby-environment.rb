@@ -15,7 +15,7 @@ dep('required.rubies_installed', :ruby_versions) {
 # We typically keep this in sync with what Heroku is using on Cedar.
 dep("bundler.global_gem", :ruby_versions) {
   rubies *ruby_versions.to_s.split(',').map(&:chomp)
-  versions "1.1.rc.7"
+  versions "~> 1.1.0"
 }
 
 # This automatically installs the last 10 versions of popular gems
