@@ -142,7 +142,7 @@ dep('lucid base template installed') {
     shell?("test -s /var/lib/lxc/base-template/rootfs") || shell?("test -b /dev/lxc/base-template -o -h /dev/lxc/base-template")
   }
   meet {
-    shell "lxc-create -n base-template -f /etc/lxc-basic.conf -t ubuntu -- -r lucid", :sudo => true
+    log_shell "Installing Ubuntu 10.04 Lucid to base-template", "lxc-create -n base-template -f /etc/lxc-basic.conf -t ubuntu -- -r lucid", :sudo => true
   }
 }
 
