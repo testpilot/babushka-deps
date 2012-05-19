@@ -20,7 +20,8 @@ dep("phantom.js installed") {
 
     log_shell "Cloning Phantom.js", "git clone git://github.com/ariya/phantomjs.git /tmp/phantomjs/" and
     log_shell "Checkout Version 1.5", "cd /tmp/phantomjs && git checkout 1.5" and
-    log_shell "Building Phantom.js", "cd /tmp/phantomjs/ && ./build.sh"
+    log_shell "Building Phantom.js", "cd /tmp/phantomjs/ && ./build.sh" and
+    log_shell "Copying phantomjs binary to /usr/local/bin/", "cp /tmp/phantomjs/bin/phantomjs /usr/local/bin/", :sudo => true
   }
 }
 
