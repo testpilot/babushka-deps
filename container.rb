@@ -217,7 +217,7 @@ dep('base-template volume'){
     shell? "lvdisplay /dev/lxc/base-template", :sudo => true
   }
   meet{
-    shell 'lvcreate -L 5G -n base-template lxc', :sudo => true
+    shell 'lvcreate -L 10G -n base-template lxc', :sudo => true
     shell 'mkfs.ext4 /dev/lxc/base-template', :sudo => true
   }
 }
