@@ -26,8 +26,8 @@ dep("phantom.js installed") {
 
 dep('libfreetype6.managed') { provides [] }
 dep('libfreetype6-dev.managed') { provides [] }
-dep('fontconfig.managed')
+dep('fontconfig.managed') { provides [] }
+dep('chrpath.managed') 
 dep('chrpath.managed')
-dep('chrpath.managed')
-dep('libssl-dev.managed')
-dep('libfontconfig1-dev.managed')
+dep('libssl-dev.managed') { provides [] }
+dep('libfontconfig1-dev.managed') { provides [] }
