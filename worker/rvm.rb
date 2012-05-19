@@ -117,7 +117,7 @@ meta :global_gem do
     meet {
       rubies.each do |ruby|
         versions.each do |version|
-          log_shell "Installing #{gem_name} version #{version} for #{ruby}", "bash -l -c '#{rvm} use #{ruby}; gem install #{gem_name} --no-ri --no-rdoc --version #{version}'", :spinner => true
+          log_shell "Installing #{gem_name} version #{version} for #{ruby}", "bash -l -c '#{rvm} use #{ruby}; gem install #{gem_name} --no-ri --no-rdoc --version=\"#{version}\"'", :spinner => true
         end
       end
     }
