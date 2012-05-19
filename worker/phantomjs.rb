@@ -1,5 +1,6 @@
 dep("phantom.js installed") {
-  requires 'freetype.managed',
+  requires  'libfreetype6-dev.managed',
+            'libfreetype6.managed',
             'fontconfig.managed',
             'chrpath.managed',
             'libssl-dev.managed',
@@ -23,7 +24,8 @@ dep("phantom.js installed") {
   }
 }
 
-dep('freetype.managed')
+dep('libfreetype6.managed')
+dep('libfreetype6-dev.managed')
 dep('fontconfig.managed')
 dep('chrpath.managed')
 dep('chrpath.managed')
