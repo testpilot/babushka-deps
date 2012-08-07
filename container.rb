@@ -6,7 +6,10 @@ dep('base-template setup') {
 # Installs everything to get a host running from scratch
 dep('lxc host configured') {
   requires  'build essential installed',
-            'ubuntu user exists',
+            'benhoskings:system',
+            'testpilot:ruby dependencies',
+            'ivanvanderbyl:ruby.src',
+            'benhoskings:user setup for provisioning'.with('ubuntu'),
             'lxc dependencies installed',
             # 'xfsprogs.managed',
             'python-software-properties.managed',
@@ -19,10 +22,6 @@ dep('lxc host configured') {
             'lxc.managed',
             # 'cgroup mounted',
             'bridge interface up',
-            'rvm with multiple rubies',
-            'ivanvanderbyl:ruby.src',
-            # 'required.rubies_installed'.with('1.9.3'),
-            # 'bundler.global_gem'.with('1.9.3'),
             'lucid base template installed',
             'iptables masquerade',
             'deployable repo'
