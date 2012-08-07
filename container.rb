@@ -9,7 +9,7 @@ dep('lxc host configured') {
             'benhoskings:system',
             'testpilot:ruby dependencies',
             'ivanvanderbyl:ruby.src',
-            'benhoskings:user setup for provisioning'.with('ubuntu'),
+            'user setup for provisioning',
             'lxc dependencies installed',
             # 'xfsprogs.managed',
             'python-software-properties.managed',
@@ -272,3 +272,14 @@ dep('logical volume removed', :container_name) {
   meet { shell "lvremove -f /dev/lxc/#{container_name}", :sudo => true }
 }
 
+dep 'user setup for provisioning', :key do
+  def username
+    'ubuntu'
+  end
+
+  requires [
+    'user exists'.with(:username => username),
+    'passwordless ssh logins'.with(username, key),
+    'passwordless sudo'.with(username)
+  ]
+end
