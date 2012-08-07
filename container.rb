@@ -20,8 +20,9 @@ dep('lxc host configured') {
             # 'cgroup mounted',
             'bridge interface up',
             'rvm with multiple rubies',
-            'required.rubies_installed'.with('1.9.3'),
-            'bundler.global_gem'.with('1.9.3'),
+            'ivanvanderbyl:ruby.src',
+            # 'required.rubies_installed'.with('1.9.3'),
+            # 'bundler.global_gem'.with('1.9.3'),
             'lucid base template installed',
             'iptables masquerade',
             'deployable repo'
