@@ -278,8 +278,8 @@ dep 'user setup for provisioning', :key do
   end
 
   requires [
-    'user exists'.with(:username => username),
-    'passwordless ssh logins'.with(username, key),
-    'passwordless sudo'.with(username)
+    'benhoskings:user exists'.with(:username => username),
+    'benhoskings:passwordless ssh logins'.with(username, key),
+    'benhoskings:passwordless sudo'.with(username)
   ]
 end
